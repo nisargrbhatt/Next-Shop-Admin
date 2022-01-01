@@ -1,0 +1,109 @@
+<div class="hero" *ngIf="!pageLoading">
+  <!-- KYC Approval Information -->
+  <div class="hero-kyc-cover">
+    <div class="kyc-image">
+      <div class="kyc-image-main">
+        <img
+          [src]="kycApproval.images[imageSelect].url"
+          [alt]="kycApproval.images[imageSelect].name"
+          ngxViewer
+        />
+      </div>
+      <div class="kyc-image-options">
+        <span *ngFor="let image of kycApproval.images; let i = index">
+          <img [src]="image.url" [alt]="image.name" (click)="imageSelect = i" />
+        </span>
+      </div>
+    </div>
+    <div class="kyc-approval">
+      <table class="kyc-approval-details">
+        <tr>
+          <td class="kyc-approval-details-label">Aadhaar Name</td>
+          <td class="kyc-approval-details-value">{{ kycApproval.name }}</td>
+        </tr>
+        <tr>
+          <td class="kyc-approval-details-label">Aadhaar Number</td>
+          <td class="kyc-approval-details-value">
+            {{ kycApproval.aadhaar_number }}
+          </td>
+        </tr>
+        <tr *ngIf="kycApproval.contact_no">
+          <td class="kyc-approval-details-label">Aadhaar Contact No</td>
+          <td class="kyc-approval-details-value">
+            {{ kycApproval.contact_no }}
+          </td>
+        </tr>
+        <tr *ngIf="kycApproval.email">
+          <td class="kyc-approval-details-label">Aadhaar Email</td>
+          <td class="kyc-approval-details-value">{{ kycApproval.email }}</td>
+        </tr>
+        <tr>
+          <td class="kyc-approval-details-label">Approval Requested</td>
+          <td class="kyc-approval-details-value">
+            {{ kycApproval.createdAt | date }}
+          </td>
+        </tr>
+      </table>
+    </div>
+  </div>
+
+  <!-- User Information -->
+  <div class="hero-user-cover">
+    <div class="user-info">
+      <table class="user-info-details">
+        <tr>
+          <td>Name</td>
+          <td>{{ kycApproval.user.name }}</td>
+        </tr>
+        <tr>
+          <td>Email</td>
+          <td>{{ kycApproval.user.email }}</td>
+        </tr>
+        <tr *ngIf="kycApproval.user.contact_no">
+          <td>Contact No</td>
+          <td>{{ kycApproval.user.contact_no }}</td>
+        </tr>
+        <tr *ngIf="kycApproval.user.role">
+          <td>Role</td>
+          <td>{{ kycApproval.user.role }}</td>
+        </tr>
+        <tr>
+          <td>Email Verified</td>
+          <td>
+            <mat-icon
+              *ngIf="kycApproval.user.email_verified"
+              style="color: green"
+              >check</mat-icon
+            >
+            <mat-icon
+              *ngIf="!kycApproval.user.email_verified"
+              style="color: red"
+              >close</mat-icon
+            >
+          </td>
+        </tr>
+        <tr>
+          <td>KYC Verified</td>
+          <td>
+            <mat-icon
+              *ngIf="kycApproval.user.merchant_or_manufacturer_verified"
+              style="color: green"
+              >check</mat-icon
+            >
+            <mat-icon
+              *ngIf="!kycApproval.user.merchant_or_manufacturer_verified"
+              style="color: red"
+              >close</mat-icon
+            >
+          </td>
+        </tr>
+        <tr *ngIf="kycApproval.user.createdAt">
+          <td>User Created</td>
+          <td>{{ kycApproval.user.createdAt | date }}</td>
+        </tr>
+      </table>
+    </div>
+  </div>
+</div>
+
+<app-loader *ngIf="pageLoading"></app-loader>

@@ -42,6 +42,8 @@ export class Auth0Service {
 
       if (authStatus) {
         this.authService.user$.subscribe((profileClaims) => {
+          this.counter++;
+
           this.auth0ProfileClaims = profileClaims;
           if (authStatus && !this.isAuthenticated && this.counter < 2) {
             const oAuthCallBody: OAuthCallBody = {
@@ -51,7 +53,6 @@ export class Auth0Service {
               email_verified: profileClaims.email_verified,
               role: environment.role,
             };
-
             let oAuthCallResponse: OAuthCallResponse;
             this.httpService
               .post(BACKEND_URL + '/user/oAuthCall', oAuthCallBody)
@@ -68,7 +69,6 @@ export class Auth0Service {
                 } else {
                   oAuthCallResponse = { ...error.error };
                 }
-
                 // Open Dialog to show dialog data
                 if ('dialog' in oAuthCallResponse) {
                   const resMesDialogRef = this.dialogService.open(
@@ -84,7 +84,6 @@ export class Auth0Service {
                     .toPromise()
                     .then(() => {});
                 }
-
                 // Open Dialog to show error data
                 if ('error' in oAuthCallResponse) {
                   if (environment.debug) {

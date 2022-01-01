@@ -1,0 +1,54 @@
+.hero {
+  padding: 0;
+  margin: 0;
+}
+
+.hero-kyc-cover {
+  display: flex;
+  .kyc-image {
+    flex: 40%;
+    .kyc-image-main {
+      img {
+        width: 25rem;
+        height: 25rem;
+        object-fit: contain;
+      }
+    }
+    .kyc-image-options {
+      display: flex;
+      width: 25rem;
+      justify-content: center;
+      align-items: center;
+      img {
+        width: 5rem;
+        height: 5rem;
+        object-fit: contain;
+      }
+    }
+  }
+  .kyc-approval {
+    flex: 60%;
+    display: flex;
+    justify-content: center;
+    border: 1px solid black;
+    border-radius: 5rem;
+
+    .kyc-approval-details {
+      padding: 0;
+      margin: 1rem;
+      width: 100%;
+      text-align: center;
+
+      .kyc-approval-details-label {
+        font-size: 1.2rem;
+        font-weight: 550;
+      }
+
+      .kyc-approval-details-value{
+        font-size: 1.2rem;
+        font-weight: 550;
+      }
+
+    }
+  }
+}
