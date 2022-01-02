@@ -8,9 +8,8 @@ describe('KycDeclineComponent', () => {
 
   beforeEach(async(() => {
     TestBed.configureTestingModule({
-      declarations: [ KycDeclineComponent ]
-    })
-    .compileComponents();
+      declarations: [KycDeclineComponent],
+    }).compileComponents();
   }));
 
   beforeEach(() => {

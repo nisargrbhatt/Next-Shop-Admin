@@ -1,5 +1,7 @@
 <div class="hero" *ngIf="!pageLoading">
   <!-- KYC Approval Information -->
+
+  <div class="info-bar">KYC Approval</div>
   <div class="hero-kyc-cover">
     <div class="kyc-image">
       <div class="kyc-image-main">
@@ -44,32 +46,47 @@
           </td>
         </tr>
       </table>
+      <div class="kyc-approval-action">
+        <button
+          mat-raised-button
+          style="color: white; fill: white; background-color: green"
+          (click)="acceptTheApproval()"
+        >
+          <mat-icon>assignment_turned_in</mat-icon> Accept
+        </button>
+        <button mat-raised-button color="warn" (click)="rejectTheApproval()">
+          <mat-icon>block</mat-icon> Reject
+        </button>
+      </div>
     </div>
   </div>
 
   <!-- User Information -->
+  <div class="info-bar">User Information</div>
   <div class="hero-user-cover">
     <div class="user-info">
       <table class="user-info-details">
         <tr>
-          <td>Name</td>
-          <td>{{ kycApproval.user.name }}</td>
+          <td class="user-info-details-label">Name</td>
+          <td class="user-info-details-value">{{ kycApproval.user.name }}</td>
         </tr>
         <tr>
-          <td>Email</td>
-          <td>{{ kycApproval.user.email }}</td>
+          <td class="user-info-details-label">Email</td>
+          <td class="user-info-details-value">{{ kycApproval.user.email }}</td>
         </tr>
         <tr *ngIf="kycApproval.user.contact_no">
-          <td>Contact No</td>
-          <td>{{ kycApproval.user.contact_no }}</td>
+          <td class="user-info-details-label">Contact No</td>
+          <td class="user-info-details-value">
+            {{ kycApproval.user.contact_no }}
+          </td>
         </tr>
         <tr *ngIf="kycApproval.user.role">
-          <td>Role</td>
-          <td>{{ kycApproval.user.role }}</td>
+          <td class="user-info-details-label">Role</td>
+          <td class="user-info-details-value">{{ kycApproval.user.role }}</td>
         </tr>
         <tr>
-          <td>Email Verified</td>
-          <td>
+          <td class="user-info-details-label">Email Verified</td>
+          <td class="user-info-details-value">
             <mat-icon
               *ngIf="kycApproval.user.email_verified"
               style="color: green"
@@ -83,8 +100,8 @@
           </td>
         </tr>
         <tr>
-          <td>KYC Verified</td>
-          <td>
+          <td class="user-info-details-label">KYC Verified</td>
+          <td class="user-info-details-value">
             <mat-icon
               *ngIf="kycApproval.user.merchant_or_manufacturer_verified"
               style="color: green"
@@ -98,8 +115,10 @@
           </td>
         </tr>
         <tr *ngIf="kycApproval.user.createdAt">
-          <td>User Created</td>
-          <td>{{ kycApproval.user.createdAt | date }}</td>
+          <td class="user-info-details-label">User Created</td>
+          <td class="user-info-details-value">
+            {{ kycApproval.user.createdAt | date }}
+          </td>
         </tr>
       </table>
     </div>

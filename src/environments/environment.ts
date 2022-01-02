@@ -6,7 +6,7 @@ export const environment = {
   production: false,
   backend_url: 'http://localhost:3001',
   backend_url_secure: 'https://localhost:3002',
-  debug: true,
+  debug: false,
   auth0ClientId: 'ZQSnbJmwwsGe6xe4OM6DJmWpacNCyZOB',
   auth0Audience: 'http://localhost:3001',
   auth0Domain: 'dev-qf3-53r4.us.auth0.com',
@@ -44,50 +44,58 @@ export const basicAPIURIs = {
 
 export const secureAPIURIs = {
   // User Controller
-  oAuthCall: '/user/oAuthCall',
-  getUser: '/user/getUser',
-  getEmailOtp: '/user/getEmailOtp',
-  emailOtpCheck: '/user/emailOtpCheck',
+  oAuthCall: { url: '/user/oAuthCall', hasQuery: false },
+  getUser: { url: '/user/getUser', hasQuery: false },
+  getEmailOtp: { url: '/user/getEmailOtp', hasQuery: false },
+  emailOtpCheck: { url: '/user/emailOtpCheck', hasQuery: false },
   // Address Controller
-  getAddresses: '/address/getAddresses',
-  getAddress: '/address/getAddress',
-  createAddress: '/address/createAddress',
-  updateAddress: '/address/updateAddress',
-  deleteAddress: '/address/deleteAddress',
+  getAddresses: { url: '/address/getAddresses', hasQuery: false },
+  getAddress: { url: '/address/getAddress', hasQuery: true },
+  createAddress: { url: '/address/createAddress', hasQuery: false },
+  updateAddress: { url: '/address/updateAddress', hasQuery: false },
+  deleteAddress: { url: '/address/deleteAddress', hasQuery: false },
   // Review Controller
-  addReview: '/review/addReview',
-  updateReview: '/review/updateReview',
-  getReview: '/review/getReview',
+  addReview: { url: '/review/addReview', hasQuery: false },
+  updateReview: { url: '/review/updateReview', hasQuery: false },
+  getReview: { url: '/review/getReview', hasQuery: true },
   // Cart Controller
-  addToCart: '/cart/addToCart',
-  updateQuantityCart: '/cart/updateQuantityCart',
-  deleteTheItem: '/cart/deleteTheItem',
-  getCart: '/cart/getCart',
+  addToCart: { url: '/cart/addToCart', hasQuery: false },
+  updateQuantityCart: { url: '/cart/updateQuantityCart', hasQuery: false },
+  deleteTheItem: { url: '/cart/deleteTheItem', hasQuery: false },
+  getCart: { url: '/cart/getCart', hasQuery: false },
   // Price Controller
-  addPrice: '/price/addPrice',
-  updatePrice: '/price/updatePrice',
-  getPrice: '/price/getPrice',
-  getPricesByMerchantId: '/price/getPricesByMerchantId',
+  addPrice: { url: '/price/addPrice', hasQuery: false },
+  updatePrice: { url: '/price/updatePrice', hasQuery: false },
+  getPrice: { url: '/price/getPrice', hasQuery: true },
+  getPricesByMerchantId: {
+    url: '/price/getPricesByMerchantId',
+    hasQuery: false,
+  },
   // Product Controller
-  createProduct: '/product/createProduct',
-  updateProduct: '/product/updateProduct',
-  approveProduct: '/product/approveProduct',
+  createProduct: { url: '/product/createProduct', hasQuery: false },
+  updateProduct: { url: '/product/updateProduct', hasQuery: false },
+  approveProduct: { url: '/product/approveProduct', hasQuery: false },
   // Category Controller
-  addCategory: '/category/addCategory',
-  updateCategory: '/category/updateCategory',
+  addCategory: { url: '/category/addCategory', hasQuery: false },
+  updateCategory: { url: '/category/updateCategory', hasQuery: false },
   // Image Controller
-  addImage: '/image/addImage',
-  deleteImage: '/image/deleteImage',
+  addImage: { url: '/image/addImage', hasQuery: false },
+  deleteImage: { url: '/image/deleteImage', hasQuery: false },
   // KYC Controller
-  createKycApproval: '/kyc/createKycApproval',
-  findAllApprovalPending: '/kyc/findAllApprovalPending',
-  acceptTheKycApproval: '/kyc/acceptTheKycApproval',
-  getKycApproval: '/kyc/getKycApproval',
-  getKYCApprovalByMerchantManufacturerId:
-    '/kyc/getKYCApprovalByMerchantManufacturerId',
+  createKycApproval: { url: '/kyc/createKycApproval', hasQuery: false },
+  findAllApprovalPending: {
+    url: '/kyc/findAllApprovalPending',
+    hasQuery: true,
+  },
+  acceptTheKycApproval: { url: '/kyc/acceptTheKycApproval', hasQuery: false },
+  getKycApproval: { url: '/kyc/getKycApproval', hasQuery: true },
+  getKYCApprovalByMerchantManufacturerId: {
+    url: '/kyc/getKYCApprovalByMerchantManufacturerId',
+    hasQuery: false,
+  },
   // KYCImage Controller
-  addKYCImage: '/kyc-image/addKYCImage',
-  deleteKYCImage: '/kyc-image/deleteKYCImage',
+  addKYCImage: { url: 'kyc-image/addKYCImage', hasQuery: false },
+  deleteKYCImage: { url: 'kyc-image/deleteKYCImage', hasQuery: false },
 };
 
 /*

@@ -57,7 +57,11 @@ import { NgxViewerModule } from 'ngx-viewer';
 
         // ],
         allowedList: Object.values(secureAPIURIs).map((uri) => {
-          return environment.backend_url + uri + '/*';
+          let url = environment.backend_url + uri.url;
+          if (uri.hasQuery) {
+            url += '/*';
+          }
+          return url;
         }),
         // allowedList: ['http://localhost:3001/user/oAuthCall'],
       },

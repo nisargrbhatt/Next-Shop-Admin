@@ -34,7 +34,7 @@ export class KycService {
     return await this.httpService
       .get<FindAllApprovalPendingResponse>(
         BACKEND_URL +
-          secureAPIURIs.findAllApprovalPending +
+          secureAPIURIs.findAllApprovalPending.url +
           `/?currentPage=${currentPage}&pageSize=${pageSize}&search=${searchFilter}`,
       )
       .toPromise();
@@ -45,7 +45,7 @@ export class KycService {
   ): Promise<AcceptTheKycApprovalResponse> {
     return this.httpService
       .patch<AcceptTheKycApprovalResponse>(
-        BACKEND_URL + secureAPIURIs.acceptTheKycApproval,
+        BACKEND_URL + secureAPIURIs.acceptTheKycApproval.url,
         acceptTheKycApprovalData,
       )
       .toPromise();
@@ -54,7 +54,7 @@ export class KycService {
   async getKycApproval(kycId: string): Promise<GetKycApprovalResponse> {
     return await this.httpService
       .get<GetKycApprovalResponse>(
-        BACKEND_URL + secureAPIURIs.getKycApproval + `/?kycId=${kycId}`,
+        BACKEND_URL + secureAPIURIs.getKycApproval.url + `/?kycId=${kycId}`,
       )
       .toPromise();
   }
