@@ -2,12 +2,16 @@
   <a class="closebtn" (click)="closeNav()">&times;</a>
 
   <span>
-    <a
-      routerLink="auth/login"
-      routerLinkActive="mat-accent"
-      *ngIf="!isAuthenticated"
-      (click)="auth0Login()"
+    <a *ngIf="!isAuthenticated" (click)="auth0Login()"
       ><mat-icon>login</mat-icon> Login</a
+    >
+
+    <a
+      *ngIf="isAuthenticated"
+      routerLink="kyc"
+      routerLinkActive="mat-accent"
+      (click)="closeNav()"
+      ><mat-icon> domain_verification</mat-icon> KYC</a
     >
 
     <a

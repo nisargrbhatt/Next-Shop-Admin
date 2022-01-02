@@ -1,0 +1,27 @@
+<div mat-dialog-title>
+  <h2>Decline KYC Approval</h2>
+</div>
+<div mat-dialog-content>
+  <form [formGroup]="kycDeclineForm" (submit)="onSubmit()">
+    <mat-form-field appearance="outline">
+      <textarea
+        matInput
+        formControlName="declineReason"
+        name="declineReason"
+        rows="5"
+        cols="10"
+      ></textarea>
+    </mat-form-field>
+  </form>
+</div>
+<div mat-dialog-actions>
+  <button
+    (click)="onSubmit()"
+    mat-raised-button
+    color="primary"
+    [disabled]="kycDeclineForm.invalid"
+  >
+    Submit
+  </button>
+  <button (click)="onCancel()" mat-stroked-button color="warn">Cancel</button>
+</div>

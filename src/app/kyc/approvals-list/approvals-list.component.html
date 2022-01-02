@@ -1,0 +1,76 @@
+<div class="hero">
+  <div class="hero-bar">
+    <div class="hero-bar-spacer"></div>
+    <button mat-raised-button color="primary" (click)="getKycApprovals()">
+      <mat-icon>refresh</mat-icon> Refresh
+    </button>
+  </div>
+  <div class="hero-data">
+    <div class="hero-data-bar">
+      <div class="hero-data-bar-count">
+        <button mat-flat-button color="primary">
+          Approvals: {{ kycApprovals ? kycApprovals.count : 0 }}
+        </button>
+      </div>
+      <div class="hero-data-bar-spacer"></div>
+      <div class="hero-data-bar-create">
+        <mat-form-field appearance="outline">
+          <button matPrefix mat-icon-button>
+            <mat-icon style="color: white">search</mat-icon>
+          </button>
+          <input
+            type="text"
+            matInput
+            [(ngModel)]="searchText"
+            (keyup)="getKycApprovals()"
+            style="color: white"
+          />
+          <button
+            matSuffix
+            mat-button
+            (click)="searchText = ''; getKycApprovals()"
+            *ngIf="searchText.length > 0"
+          >
+            <mat-icon style="color: white">close</mat-icon>
+          </button>
+        </mat-form-field>
+      </div>
+    </div>
+    <div class="hero-data-result">
+      <mat-accordion multi="true" *ngIf="!dataLoading && !pageLoading">
+        <mat-expansion-panel *ngFor="let kycApproval of kycApprovals.rows">
+          <mat-expansion-panel-header>
+            <mat-panel-title>{{ kycApproval.name }}</mat-panel-title>
+            <mat-panel-description>{{
+              kycApproval.aadhaar_number
+            }}</mat-panel-description>
+          </mat-expansion-panel-header>
+          <mat-action-row>
+            <button
+              mat-button
+              color="primary"
+              [routerLink]="['/kyc/approval', kycApproval.id]"
+            >
+              Open
+            </button>
+          </mat-action-row>
+        </mat-expansion-panel>
+        <div class="hero-data-result-null" *ngIf="kycApprovals.count === 0">
+          No Approvals Found
+        </div>
+      </mat-accordion>
+      <mat-paginator
+        [length]="totalApprovals"
+        [pageSize]="approvalsPerPage"
+        [pageSizeOptions]="pageSizeOptions"
+        (page)="onPageChange($event)"
+        *ngIf="!dataLoading && !pageLoading"
+      ></mat-paginator>
+      <mat-spinner
+        style="margin: auto"
+        *ngIf="dataLoading && !pageLoading"
+      ></mat-spinner>
+    </div>
+  </div>
+  <app-loader *ngIf="pageLoading"></app-loader>
+</div>

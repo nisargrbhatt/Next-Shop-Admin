@@ -14,6 +14,8 @@ import { AuthHttpInterceptor, AuthModule } from '@auth0/auth0-angular';
 import { environment, secureAPIURIs } from 'src/environments/environment';
 
 import { Error404Component } from './error404/error404.component';
+
+import { NgxViewerModule } from 'ngx-viewer';
 @NgModule({
   declarations: [AppComponent, Error404Component],
   imports: [
@@ -26,6 +28,7 @@ import { Error404Component } from './error404/error404.component';
     NgbModule,
     ReactiveFormsModule,
     FormsModule,
+    NgxViewerModule,
     AuthModule.forRoot({
       // The domain and clientId were configured in the previous chapter
       domain: environment.auth0Domain,
@@ -54,7 +57,11 @@ import { Error404Component } from './error404/error404.component';
 
         // ],
         allowedList: Object.values(secureAPIURIs).map((uri) => {
-          return environment.backend_url + uri;
+          let url = environment.backend_url + uri.url;
+          if (uri.hasQuery) {
+            url += '/*';
+          }
+          return url;
         }),
         // allowedList: ['http://localhost:3001/user/oAuthCall'],
       },
