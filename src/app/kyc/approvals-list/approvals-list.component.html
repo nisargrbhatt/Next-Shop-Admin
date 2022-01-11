@@ -1,7 +1,7 @@
 <div class="hero">
   <div class="hero-bar">
     <div class="hero-bar-spacer"></div>
-    <button mat-raised-button color="primary" (click)="getKycApprovals()">
+    <button mat-raised-button color="primary" (click)="onRefresh()">
       <mat-icon>refresh</mat-icon> Refresh
     </button>
   </div>
@@ -21,23 +21,14 @@
           <input
             type="text"
             matInput
-            [(ngModel)]="searchText"
-            (keyup)="getKycApprovals()"
+            [formControl]="search"
             style="color: white"
           />
-          <button
-            matSuffix
-            mat-button
-            (click)="searchText = ''; getKycApprovals()"
-            *ngIf="searchText.length > 0"
-          >
-            <mat-icon style="color: white">close</mat-icon>
-          </button>
         </mat-form-field>
       </div>
     </div>
-    <div class="hero-data-result">
-      <mat-accordion multi="true" *ngIf="!dataLoading && !pageLoading">
+    <div class="hero-data-result" *ngIf="kycApprovals">
+      <mat-accordion multi="true">
         <mat-expansion-panel *ngFor="let kycApproval of kycApprovals.rows">
           <mat-expansion-panel-header>
             <mat-panel-title>{{ kycApproval.name }}</mat-panel-title>
@@ -62,15 +53,9 @@
       <mat-paginator
         [length]="totalApprovals"
         [pageSize]="approvalsPerPage"
-        [pageSizeOptions]="pageSizeOptions"
         (page)="onPageChange($event)"
-        *ngIf="!dataLoading && !pageLoading"
       ></mat-paginator>
-      <mat-spinner
-        style="margin: auto"
-        *ngIf="dataLoading && !pageLoading"
-      ></mat-spinner>
     </div>
   </div>
-  <app-loader *ngIf="pageLoading"></app-loader>
+  <app-loader *ngIf="!kycApprovals"></app-loader>
 </div>

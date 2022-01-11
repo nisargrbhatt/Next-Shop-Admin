@@ -1,29 +1,40 @@
+import { FormControl } from '@angular/forms';
 import { MatDialog } from '@angular/material/dialog';
 import { Router } from '@angular/router';
 import { FindAllApprovalPendingResponse } from './../kyc.interface';
 import { KycService } from './../kyc.service';
-import { Component, OnInit } from '@angular/core';
+import { Component, OnInit, OnDestroy } from '@angular/core';
 import { FindAllApprovalPendingResponseData } from '../kyc.interface';
 import { ErrorComponent } from 'src/app/shared/dialog/error/error.component';
 import { ResMesComponent } from 'src/app/shared/dialog/res-mes/res-mes.component';
 import { environment } from 'src/environments/environment';
 import { PageEvent } from '@angular/material/paginator';
+import { SubSink } from 'subsink';
+import { BehaviorSubject, Subject } from 'rxjs';
+import { debounceTime, distinctUntilChanged, switchMap } from 'rxjs/operators';
 
 @Component({
   selector: 'app-approvals-list',
   templateUrl: './approvals-list.component.html',
   styleUrls: ['./approvals-list.component.scss'],
 })
-export class ApprovalsListComponent implements OnInit {
+export class ApprovalsListComponent implements OnInit, OnDestroy {
+  private subs = new SubSink();
+
   pageLoading = false;
   dataLoading = false;
 
   searchText = '';
 
+  search = new FormControl('');
+  search$ = this.search.valueChanges;
+
+  refresh = new Subject<any>();
+
   totalApprovals = 0;
-  approvalsPerPage = 5;
-  currentPage = 1;
-  pageSizeOptions = [5, 10, 20, 40];
+  approvalsPerPage = 10;
+  currentPage = new BehaviorSubject<number>(1);
+
   kycApprovals: FindAllApprovalPendingResponseData;
 
   constructor(
@@ -33,62 +44,77 @@ export class ApprovalsListComponent implements OnInit {
   ) {}
 
   ngOnInit(): void {
-    this.pageLoading = true;
-    this.getKycApprovals();
-    this.pageLoading = false;
-  }
+    this.subs.sink = this.kycService
+      .findAllApprovalPending(
+        this.currentPage.getValue(),
+        this.approvalsPerPage,
+        this.search.value,
+      )
+      .subscribe((data) => {
+        this.kycApprovals = data;
+        this.totalApprovals = data.count;
+      });
 
-  async getKycApprovals(): Promise<void> {
-    this.dataLoading = true;
-    let findAllApprovalPendingResponse: FindAllApprovalPendingResponse;
-    try {
-      findAllApprovalPendingResponse =
-        await this.kycService.findAllApprovalPending(
-          this.currentPage,
-          this.approvalsPerPage,
-          this.searchText,
-        );
-    } catch (error) {
-      if (error.error instanceof ErrorEvent) {
-        console.log(error);
-      } else {
-        findAllApprovalPendingResponse = { ...error.error };
-      }
-    }
-    if (findAllApprovalPendingResponse.valid) {
-      this.kycApprovals = findAllApprovalPendingResponse.data;
-      this.totalApprovals = this.kycApprovals.count;
-    } else {
-      // Open Dialog to show dialog data
-      if ('dialog' in findAllApprovalPendingResponse) {
-        const resMesDialogRef = this.dialogService.open(ResMesComponent, {
-          data: findAllApprovalPendingResponse.dialog,
-          autoFocus: true,
-          hasBackdrop: true,
-        });
-        await resMesDialogRef.afterClosed().toPromise();
-      }
+    this.subs.sink = this.search$
+      .pipe(
+        debounceTime(500),
+        distinctUntilChanged(),
+        switchMap((search) =>
+          this.kycService.findAllApprovalPending(
+            this.currentPage.getValue(),
+            this.approvalsPerPage,
+            search,
+          ),
+        ),
+      )
+      .subscribe((data) => {
+        this.kycApprovals = data;
+        this.totalApprovals = data.count;
+      });
 
-      // Open Dialog to show error data
-      if ('error' in findAllApprovalPendingResponse) {
-        if (environment.debug) {
-          const errorDialogRef = this.dialogService.open(ErrorComponent, {
-            data: findAllApprovalPendingResponse.error,
-            autoFocus: true,
-            hasBackdrop: true,
-          });
-          await errorDialogRef.afterClosed().toPromise();
-        }
-      }
-      this.router.navigate(['/']);
-    }
+    this.subs.sink = this.currentPage
+      .asObservable()
+      .pipe(
+        distinctUntilChanged(),
+        switchMap((search) =>
+          this.kycService.findAllApprovalPending(
+            this.currentPage.getValue(),
+            this.approvalsPerPage,
+            this.search.value,
+          ),
+        ),
+      )
+      .subscribe((data) => {
+        this.kycApprovals = data;
+        this.totalApprovals = data.count;
+      });
 
-    this.dataLoading = false;
+    this.subs.sink = this.refresh
+      .asObservable()
+      .pipe(
+        switchMap(() =>
+          this.kycService.findAllApprovalPending(
+            this.currentPage.getValue(),
+            this.approvalsPerPage,
+            this.search.value,
+          ),
+        ),
+      )
+      .subscribe((data) => {
+        this.kycApprovals = data;
+        this.totalApprovals = data.count;
+      });
   }
 
   onPageChange(pageData: PageEvent): void {
-    this.currentPage = pageData.pageIndex + 1;
-    this.approvalsPerPage = pageData.pageSize;
-    this.getKycApprovals();
+    this.currentPage.next(pageData.pageIndex + 1);
+  }
+
+  onRefresh(): void {
+    this.refresh.next(2);
+  }
+
+  ngOnDestroy(): void {
+    this.subs.unsubscribe();
   }
 }

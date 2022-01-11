@@ -1,3 +1,4 @@
+import { SubSink } from 'subsink';
 import { KycDeclineComponent } from './../../shared/dialog/kyc-decline/kyc-decline.component';
 import { ConfirmComponent } from './../../shared/dialog/confirm/confirm.component';
 import { MatSnackBar } from '@angular/material/snack-bar';
@@ -9,19 +10,16 @@ import {
 import { MatDialog } from '@angular/material/dialog';
 import { ActivatedRoute, ParamMap, Router } from '@angular/router';
 import { KycService } from './../kyc.service';
-import { Component, OnInit } from '@angular/core';
+import { Component, OnInit, OnDestroy } from '@angular/core';
 import { FindKYCApprovalResponseDataRows } from '../kyc.interface';
-import { ErrorComponent } from 'src/app/shared/dialog/error/error.component';
-import { ResMesComponent } from 'src/app/shared/dialog/res-mes/res-mes.component';
-import { environment } from 'src/environments/environment';
 
 @Component({
   selector: 'app-approvals-show',
   templateUrl: './approvals-show.component.html',
   styleUrls: ['./approvals-show.component.scss'],
 })
-export class ApprovalsShowComponent implements OnInit {
-  pageLoading = false;
+export class ApprovalsShowComponent implements OnInit, OnDestroy {
+  private subs = new SubSink();
 
   kycId: string;
 
@@ -37,58 +35,15 @@ export class ApprovalsShowComponent implements OnInit {
   ) {}
 
   ngOnInit(): void {
-    this.pageLoading = true;
-    this.route.paramMap.subscribe((paramMap: ParamMap) => {
-      if (paramMap.has('id')) {
-        this.kycId = paramMap.get('id');
-        this.getKycApproval();
-      } else {
-        this.router.navigate(['/kyc']);
-      }
-    });
-  }
-
-  async getKycApproval(): Promise<void> {
-    this.pageLoading = true;
-
-    let getKycApprovalResponse: GetKycApprovalResponse;
-    try {
-      getKycApprovalResponse = await this.kycService.getKycApproval(this.kycId);
-    } catch (error) {
-      if (error.error instanceof ErrorEvent) {
-        console.log(error);
-      } else {
-        getKycApprovalResponse = { ...error.error };
-      }
-    }
-    if (getKycApprovalResponse.valid) {
-      this.kycApproval = getKycApprovalResponse.data;
-    } else {
-      // Open Dialog to show dialog data
-      if ('dialog' in getKycApprovalResponse) {
-        const resMesDialogRef = this.dialogService.open(ResMesComponent, {
-          data: getKycApprovalResponse.dialog,
-          autoFocus: true,
-          hasBackdrop: true,
-        });
-        await resMesDialogRef.afterClosed().toPromise();
-      }
-
-      // Open Dialog to show error data
-      if ('error' in getKycApprovalResponse) {
-        if (environment.debug) {
-          const errorDialogRef = this.dialogService.open(ErrorComponent, {
-            data: getKycApprovalResponse.error,
-            autoFocus: true,
-            hasBackdrop: true,
-          });
-          await errorDialogRef.afterClosed().toPromise();
-        }
-      }
-      this.router.navigate(['/']);
+    if (this.route.snapshot.params.id) {
+      this.kycId = this.route.snapshot.params.id;
     }
 
-    this.pageLoading = false;
+    this.subs.sink = this.kycService
+      .getKycApproval(this.kycId)
+      .subscribe((data) => {
+        this.kycApproval = data;
+      });
   }
 
   async acceptTheApproval(): Promise<void> {
@@ -109,46 +64,7 @@ export class ApprovalsShowComponent implements OnInit {
       approval: true,
     };
 
-    let acceptTheKycApprovalResponse: AcceptTheKycApprovalResponse;
-    try {
-      acceptTheKycApprovalResponse = await this.kycService.acceptTheKycApproval(
-        acceptTheKycApprovalData,
-      );
-    } catch (error) {
-      if (error.error instanceof ErrorEvent) {
-        console.log(error);
-      } else {
-        acceptTheKycApprovalResponse = { ...error.error };
-      }
-    }
-    if (acceptTheKycApprovalResponse.valid) {
-      this.snackbarService.open(acceptTheKycApprovalResponse.message, 'Ok', {
-        duration: 2 * 1000,
-      });
-    } else {
-      // Open Dialog to show dialog data
-      if ('dialog' in acceptTheKycApprovalResponse) {
-        const resMesDialogRef = this.dialogService.open(ResMesComponent, {
-          data: acceptTheKycApprovalResponse.dialog,
-          autoFocus: true,
-          hasBackdrop: true,
-        });
-        await resMesDialogRef.afterClosed().toPromise();
-      }
-
-      // Open Dialog to show error data
-      if ('error' in acceptTheKycApprovalResponse) {
-        if (environment.debug) {
-          const errorDialogRef = this.dialogService.open(ErrorComponent, {
-            data: acceptTheKycApprovalResponse.error,
-            autoFocus: true,
-            hasBackdrop: true,
-          });
-          await errorDialogRef.afterClosed().toPromise();
-        }
-      }
-    }
-    this.router.navigate(['/kyc']);
+    this.kycService.acceptTheKycApproval(acceptTheKycApprovalData);
   }
 
   async rejectTheApproval(): Promise<void> {
@@ -171,45 +87,10 @@ export class ApprovalsShowComponent implements OnInit {
       declineReason: kycDeclineDialogRes.reason,
     };
 
-    let acceptTheKycApprovalResponse: AcceptTheKycApprovalResponse;
-    try {
-      acceptTheKycApprovalResponse = await this.kycService.acceptTheKycApproval(
-        acceptTheKycApprovalData,
-      );
-    } catch (error) {
-      if (error.error instanceof ErrorEvent) {
-        console.log(error);
-      } else {
-        acceptTheKycApprovalResponse = { ...error.error };
-      }
-    }
-    if (acceptTheKycApprovalResponse.valid) {
-      this.snackbarService.open(acceptTheKycApprovalResponse.message, 'Ok', {
-        duration: 2 * 1000,
-      });
-    } else {
-      // Open Dialog to show dialog data
-      if ('dialog' in acceptTheKycApprovalResponse) {
-        const resMesDialogRef = this.dialogService.open(ResMesComponent, {
-          data: acceptTheKycApprovalResponse.dialog,
-          autoFocus: true,
-          hasBackdrop: true,
-        });
-        await resMesDialogRef.afterClosed().toPromise();
-      }
+    this.kycService.acceptTheKycApproval(acceptTheKycApprovalData);
+  }
 
-      // Open Dialog to show error data
-      if ('error' in acceptTheKycApprovalResponse) {
-        if (environment.debug) {
-          const errorDialogRef = this.dialogService.open(ErrorComponent, {
-            data: acceptTheKycApprovalResponse.error,
-            autoFocus: true,
-            hasBackdrop: true,
-          });
-          await errorDialogRef.afterClosed().toPromise();
-        }
-      }
-    }
-    this.router.navigate(['/kyc']);
+  ngOnDestroy(): void {
+    this.subs.unsubscribe();
   }
 }

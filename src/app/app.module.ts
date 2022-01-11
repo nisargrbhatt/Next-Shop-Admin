@@ -14,7 +14,7 @@ import { AuthHttpInterceptor, AuthModule } from '@auth0/auth0-angular';
 import { environment, secureAPIURIs } from 'src/environments/environment';
 
 import { Error404Component } from './error404/error404.component';
-
+import { HttpErrorInterceptor } from './http-error.interceptor';
 import { NgxViewerModule } from 'ngx-viewer';
 @NgModule({
   declarations: [AppComponent, Error404Component],
@@ -70,6 +70,11 @@ import { NgxViewerModule } from 'ngx-viewer';
   providers: [
     Auth0Service,
     { provide: HTTP_INTERCEPTORS, useClass: AuthHttpInterceptor, multi: true },
+    {
+      provide: HTTP_INTERCEPTORS,
+      useClass: HttpErrorInterceptor,
+      multi: true,
+    },
   ],
   bootstrap: [AppComponent],
 })

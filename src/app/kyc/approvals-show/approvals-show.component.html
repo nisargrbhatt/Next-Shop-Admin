@@ -1,6 +1,4 @@
-<div class="hero" *ngIf="!pageLoading">
-  <!-- KYC Approval Information -->
-
+<div class="hero" *ngIf="kycApproval">
   <div class="info-bar">KYC Approval</div>
   <div class="hero-kyc-cover">
     <div class="kyc-image">
@@ -125,4 +123,4 @@
   </div>
 </div>
 
-<app-loader *ngIf="pageLoading"></app-loader>
+<app-loader *ngIf="!kycApproval"></app-loader>

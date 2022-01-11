@@ -1,3 +1,7 @@
+import { Router } from '@angular/router';
+import { MatSnackBar } from '@angular/material/snack-bar';
+import { Observable } from 'rxjs';
+import { map } from 'rxjs/operators';
 import { HttpClient, HttpParams } from '@angular/common/http';
 import { Injectable } from '@angular/core';
 
@@ -22,40 +26,49 @@ const BACKEND_URL = environment.production
   providedIn: 'root',
 })
 export class KycService {
-  constructor(private httpService: HttpClient) {}
+  constructor(
+    private httpService: HttpClient,
+    private snackbarService: MatSnackBar,
+    private router: Router,
+  ) {}
 
-  async findAllApprovalPending(
+  findAllApprovalPending(
     currentPage: number,
     pageSize: number,
     search?: string,
-  ): Promise<FindAllApprovalPendingResponse> {
-    const searchFilter = search.replace(new RegExp('[.?/=#]'), '');
-
-    return await this.httpService
+  ): Observable<any> {
+    return this.httpService
       .get<FindAllApprovalPendingResponse>(
         BACKEND_URL +
           secureAPIURIs.findAllApprovalPending.url +
-          `/?currentPage=${currentPage}&pageSize=${pageSize}&search=${searchFilter}`,
+          `/?currentPage=${currentPage}&pageSize=${pageSize}&search=${encodeURI(
+            search,
+          )}`,
       )
-      .toPromise();
+      .pipe(map((response) => response.data));
   }
 
-  async acceptTheKycApproval(
+  acceptTheKycApproval(
     acceptTheKycApprovalData: AcceptTheKycApprovalData,
-  ): Promise<AcceptTheKycApprovalResponse> {
-    return this.httpService
+  ): void {
+    this.httpService
       .patch<AcceptTheKycApprovalResponse>(
         BACKEND_URL + secureAPIURIs.acceptTheKycApproval.url,
         acceptTheKycApprovalData,
       )
-      .toPromise();
+      .subscribe((response) => {
+        this.snackbarService.open(response.message, 'Ok', {
+          duration: 2 * 1000,
+        });
+        this.router.navigate(['/kyc']);
+      });
   }
 
-  async getKycApproval(kycId: string): Promise<GetKycApprovalResponse> {
-    return await this.httpService
+  getKycApproval(kycId: string): Observable<any> {
+    return this.httpService
       .get<GetKycApprovalResponse>(
         BACKEND_URL + secureAPIURIs.getKycApproval.url + `/?kycId=${kycId}`,
       )
-      .toPromise();
+      .pipe(map((response) => response.data));
   }
 }
