@@ -7,9 +7,10 @@ import { RouterModule } from '@angular/router';
 import { NgxViewerModule } from 'ngx-viewer';
 import { AngularMaterialModule } from '../angular-material.module';
 import { SharedModule } from '../shared/shared.module';
+import { ProductApprovalShowComponent } from './product-approval-show/product-approval-show.component';
 
 @NgModule({
-  declarations: [ProductApprovalListComponent],
+  declarations: [ProductApprovalListComponent, ProductApprovalShowComponent],
   imports: [
     CommonModule,
     ProductRoutingModule,
