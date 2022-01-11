@@ -10,7 +10,8 @@ import { EmailVerificationComponent } from './dialog/email-verification/email-ve
 import { LoaderComponent } from './loader/loader.component';
 import { ConfirmComponent } from './dialog/confirm/confirm.component';
 import { KycDeclineComponent } from './dialog/kyc-decline/kyc-decline.component';
-
+import { ProductCardSmallComponent } from './product/product-card-small/product-card-small.component';
+import { ProductCardLongComponent } from './product/product-card-long/product-card-long.component';
 @NgModule({
   imports: [CommonModule, AngularMaterialModule, RouterModule],
   declarations: [
@@ -22,6 +23,8 @@ import { KycDeclineComponent } from './dialog/kyc-decline/kyc-decline.component'
     LoaderComponent,
     ConfirmComponent,
     KycDeclineComponent,
+    ProductCardSmallComponent,
+    ProductCardLongComponent,
   ],
   providers: [],
   exports: [
@@ -33,6 +36,8 @@ import { KycDeclineComponent } from './dialog/kyc-decline/kyc-decline.component'
     LoaderComponent,
     ConfirmComponent,
     KycDeclineComponent,
+    ProductCardSmallComponent,
+    ProductCardLongComponent,
   ],
 })
 export class SharedModule {}

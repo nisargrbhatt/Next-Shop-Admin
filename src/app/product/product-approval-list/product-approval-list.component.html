@@ -1,1 +1,61 @@
-<p>product-approval-list works!</p>
+<div class="hero">
+  <div class="hero-bar">
+    <div class="hero-bar-spacer"></div>
+    <button mat-raised-button color="primary" (click)="onRefresh()">
+      <mat-icon>refresh</mat-icon> Refresh
+    </button>
+  </div>
+  <div class="hero-data">
+    <div class="hero-data-bar">
+      <div class="hero-data-bar-count">
+        <button mat-flat-button color="primary">
+          Approvals: {{ totalApprovals }}
+        </button>
+      </div>
+      <div class="hero-data-bar-spacer"></div>
+      <div class="hero-data-bar-create">
+        <mat-form-field appearance="outline">
+          <button matPrefix mat-icon-button>
+            <mat-icon style="color: white">search</mat-icon>
+          </button>
+          <input
+            type="text"
+            matInput
+            [formControl]="search"
+            style="color: white"
+          />
+        </mat-form-field>
+      </div>
+    </div>
+    <div class="hero-data-result" *ngIf="productApprovals">
+      <mat-accordion multi="true">
+        <div class="container-fluid">
+          <div class="row" style="margin-left: 3%; margin-right: 3%">
+            <div
+              class="col-xs-6 col-md-4"
+              *ngFor="let product of productApprovals.rows"
+            >
+              <app-product-card-small
+                [productDetails]="getProductCardDetails(product)"
+                [cardHeight]="32"
+                [cardWidth]="25"
+                actionName="Open"
+                actionIcon="open_in_full"
+                (actionClick)="onProductClick($event)"
+              ></app-product-card-small>
+            </div>
+          </div>
+        </div>
+        <div class="hero-data-result-null" *ngIf="totalApprovals === 0">
+          No Approvals Found
+        </div>
+      </mat-accordion>
+      <mat-paginator
+        [length]="totalApprovals"
+        [pageSize]="approvalsPerPage"
+        (page)="onPageChange($event)"
+      ></mat-paginator>
+    </div>
+  </div>
+  <app-loader *ngIf="!productApprovals"></app-loader>
+</div>

@@ -21,11 +21,6 @@ import { debounceTime, distinctUntilChanged, switchMap } from 'rxjs/operators';
 export class ApprovalsListComponent implements OnInit, OnDestroy {
   private subs = new SubSink();
 
-  pageLoading = false;
-  dataLoading = false;
-
-  searchText = '';
-
   search = new FormControl('');
   search$ = this.search.valueChanges;
 
