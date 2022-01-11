@@ -30,6 +30,7 @@
     "bootstrap": "^4.6.1",
     "ngx-viewer": "^1.0.8",
     "rxjs": "~6.5.5",
+    "subsink": "^1.0.2",
     "tslib": "^2.0.0",
     "viewerjs": "^1.10.2",
     "zone.js": "~0.10.3"

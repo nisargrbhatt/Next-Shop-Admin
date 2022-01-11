@@ -24,6 +24,11 @@ export const basicAPIURIs = {
   getProductWithCategoryBySearch: '/product/getProductWithCategoryBySearch',
   getProductWithCategoryByManufacturerId:
     '/product/getProductWithCategoryByManufacturerId',
+  getProductWithCategoryByManufacturerIdApprovalPending:
+    '/product/getProductWithCategoryByManufacturerIdApprovalPending',
+  getAllProductsByManufacturerId: '/product/getAllProductsByManufacturerId',
+  getAllProductWithSearchByManufacturerId:
+    '/product/getAllProductWithSearchByManufacturerId',
   // Category Controller
   getAllCategories: '/category/getAllCategories',
   getCategory: '/category/getCategory',
@@ -71,12 +76,16 @@ export const secureAPIURIs = {
   createProduct: { url: '/product/createProduct', hasQuery: false },
   updateProduct: { url: '/product/updateProduct', hasQuery: false },
   approveProduct: { url: '/product/approveProduct', hasQuery: false },
+  renewTheApprovalForProduct: {
+    url: '/product/renewTheApprovalForProduct',
+    hasQuery: true,
+  },
   // Category Controller
   addCategory: { url: '/category/addCategory', hasQuery: false },
   updateCategory: { url: '/category/updateCategory', hasQuery: false },
   // Image Controller
   addImage: { url: '/image/addImage', hasQuery: false },
-  deleteImage: { url: '/image/deleteImage', hasQuery: false },
+  deleteImage: { url: '/image/deleteImage', hasQuery: true },
   // KYC Controller
   createKycApproval: { url: '/kyc/createKycApproval', hasQuery: false },
   findAllApprovalPending: {
