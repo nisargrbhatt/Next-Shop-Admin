@@ -1,5 +1,9 @@
 .hero-bar {
   display: flex;
+  justify-content: flex-end;
+  button {
+    margin: 0 1rem;
+  }
 }
 .hero-bar-spacer {
   flex: 1 1 auto;

@@ -1,6 +1,13 @@
 <div class="hero">
   <div class="hero-bar">
-    <div class="hero-bar-spacer"></div>
+    <!-- <div class="hero-bar-spacer"></div> -->
+    <button
+      mat-raised-button
+      color="accent"
+      [routerLink]="['/product/category']"
+    >
+      Categories
+    </button>
     <button mat-raised-button color="primary" (click)="onRefresh()">
       <mat-icon>refresh</mat-icon> Refresh
     </button>
