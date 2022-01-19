@@ -1,0 +1,67 @@
+<div class="hero">
+  <div class="hero-create-form">
+    <form [formGroup]="categoryForm" (submit)="onAddCategory()">
+      <mat-form-field appearance="outline">
+        <mat-label>Name</mat-label>
+        <input
+          matInput
+          type="text"
+          name="name"
+          placeholder="Enter your name"
+          formControlName="name"
+        />
+        <mat-error *ngIf="categoryForm.get('name').hasError('required')"
+          >Name is required</mat-error
+        >
+      </mat-form-field>
+      <button
+        mat-raised-button
+        color="primary"
+        [disabled]="categoryForm.invalid"
+        type="submit"
+      >
+        Submit
+      </button>
+    </form>
+  </div>
+  <div class="hero-categories-data" *ngIf="categoriesData">
+    <div class="category-card" *ngFor="let category of categoriesData.rows">
+      <mat-card>
+        <input
+          type="text"
+          [value]="category.name"
+          required
+          #categoryInput
+          disabled
+        />
+        <button
+          (click)="categoryInput.disabled = false"
+          type="button"
+          *ngIf="categoryInput.disabled"
+          mat-button
+        >
+          <mat-icon>edit</mat-icon>
+        </button>
+        <button
+          (click)="
+            onUpdateCategory(categoryInput.value, category.id);
+            categoryInput.disabled = true
+          "
+          type="button"
+          *ngIf="!categoryInput.disabled"
+          mat-button
+        >
+          Edit
+        </button>
+        <button
+          (click)="categoryInput.disabled = true"
+          type="button"
+          *ngIf="!categoryInput.disabled"
+          mat-button
+        >
+          <mat-icon>close</mat-icon>
+        </button>
+      </mat-card>
+    </div>
+  </div>
+</div>

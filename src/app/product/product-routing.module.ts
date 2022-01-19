@@ -3,6 +3,7 @@ import { ProductApprovalListComponent } from './product-approval-list/product-ap
 import { NgModule } from '@angular/core';
 import { Routes, RouterModule } from '@angular/router';
 import { AuthGuard } from '@auth0/auth0-angular';
+import { CategoryListComponent } from './category-list/category-list.component';
 
 const routes: Routes = [
   {
@@ -13,6 +14,11 @@ const routes: Routes = [
   {
     path: 'approval/:id',
     component: ProductApprovalShowComponent,
+    canActivate: [AuthGuard],
+  },
+  {
+    path: 'category',
+    component: CategoryListComponent,
     canActivate: [AuthGuard],
   },
 ];
