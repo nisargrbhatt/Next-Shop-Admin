@@ -1,5 +1,10 @@
 import { Component, OnInit } from '@angular/core';
-import { FormControl, FormGroup, Validators } from '@angular/forms';
+import {
+  FormControl,
+  FormGroup,
+  FormGroupDirective,
+  Validators,
+} from '@angular/forms';
 import { Subject } from 'rxjs';
 import { debounceTime, switchMap } from 'rxjs/operators';
 import {
@@ -39,7 +44,7 @@ export class CategoryListComponent implements OnInit {
       });
   }
 
-  onAddCategory(): void {
+  onAddCategory(formDirective: FormGroupDirective): void {
     if (this.categoryForm.invalid) {
       return;
     }
@@ -47,8 +52,9 @@ export class CategoryListComponent implements OnInit {
       name: this.categoryForm.value.name,
     };
     this.categoryService.addCategory(addCategoryData);
+    formDirective.resetForm();
     this.categoryForm.reset();
-    this.categoryForm.get('name').updateValueAndValidity();
+
     this.refresh.next(1);
   }
   onUpdateCategory(name: string, id: string): void {

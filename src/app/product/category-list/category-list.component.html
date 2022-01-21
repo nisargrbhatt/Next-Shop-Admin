@@ -1,6 +1,10 @@
 <div class="hero">
   <div class="hero-create-form">
-    <form [formGroup]="categoryForm" (submit)="onAddCategory()">
+    <form
+      [formGroup]="categoryForm"
+      #formDirective="ngForm"
+      (submit)="onAddCategory(formDirective)"
+    >
       <mat-form-field appearance="outline">
         <mat-label>Name</mat-label>
         <input
@@ -25,43 +29,56 @@
     </form>
   </div>
   <div class="hero-categories-data" *ngIf="categoriesData">
-    <div class="category-card" *ngFor="let category of categoriesData.rows">
-      <mat-card>
-        <input
-          type="text"
-          [value]="category.name"
-          required
-          #categoryInput
-          disabled
-        />
-        <button
-          (click)="categoryInput.disabled = false"
-          type="button"
-          *ngIf="categoryInput.disabled"
-          mat-button
-        >
-          <mat-icon>edit</mat-icon>
-        </button>
-        <button
-          (click)="
-            onUpdateCategory(categoryInput.value, category.id);
-            categoryInput.disabled = true
-          "
-          type="button"
-          *ngIf="!categoryInput.disabled"
-          mat-button
-        >
-          Edit
-        </button>
-        <button
-          (click)="categoryInput.disabled = true"
-          type="button"
-          *ngIf="!categoryInput.disabled"
-          mat-button
-        >
-          <mat-icon>close</mat-icon>
-        </button>
-      </mat-card>
+    <div class="category-card">
+      <div class="container-fluid">
+        <div class="row" style="margin-left: 3%; margin-right: 3%">
+          <div
+            class="col-xs-6 col-md-4"
+            *ngFor="let category of categoriesData.rows"
+          >
+            <mat-card>
+              <input
+                matInput
+                type="text"
+                [value]="category.name"
+                required
+                #categoryInput
+                disabled
+                placeholder="Category Name"
+              />
+              <mat-card-actions>
+                <button
+                  (click)="categoryInput.disabled = false"
+                  type="button"
+                  *ngIf="categoryInput.disabled"
+                  mat-button
+                >
+                  <mat-icon>edit</mat-icon>
+                </button>
+                <button
+                  (click)="
+                    onUpdateCategory(categoryInput.value, category.id);
+                    categoryInput.disabled = true
+                  "
+                  type="button"
+                  *ngIf="!categoryInput.disabled"
+                  mat-button
+                >
+                  Edit
+                </button>
+                <button
+                  (click)="categoryInput.disabled = true"
+                  type="button"
+                  *ngIf="!categoryInput.disabled"
+                  mat-button
+                >
+                  <mat-icon>close</mat-icon>
+                </button>
+              </mat-card-actions>
+            </mat-card>
+          </div>
+        </div>
+      </div>
     </div>
   </div>
 </div>
