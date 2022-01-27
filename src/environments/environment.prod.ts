@@ -29,11 +29,19 @@ export const basicAPIURIs = {
   getAllProductsByManufacturerId: '/product/getAllProductsByManufacturerId',
   getAllProductWithSearchByManufacturerId:
     '/product/getAllProductWithSearchByManufacturerId',
+  getAllProductWithCategoryImageByCategoryId:
+    '/product/getAllProductWithCategoryImageByCategoryId',
+  getAllProductWithCategoryImageBySearch:
+    '/product/getAllProductWithCategoryImageBySearch',
+  getAllProductLookaheadWithCategoryImageBySearch:
+    '/product/getAllProductLookaheadWithCategoryImageBySearch',
   // Category Controller
   getAllCategories: '/category/getAllCategories',
   getCategory: '/category/getCategory',
   getCategoryByName: '/category/getCategoryByName',
   getCategoryById: '/category/getCategoryById',
+  getAllCategoriesWithFiveProducts:
+    '/category/getAllCategoriesWithFiveProducts',
   // Image Controller
   getImageByProductId: '/image/getImageByProductId',
   // User Controller
@@ -62,7 +70,7 @@ export const secureAPIURIs = {
   // Cart Controller
   addToCart: { url: '/cart/addToCart', hasQuery: false },
   updateQuantityCart: { url: '/cart/updateQuantityCart', hasQuery: false },
-  deleteTheItem: { url: '/cart/deleteTheItem', hasQuery: false },
+  deleteTheItem: { url: '/cart/deleteTheItem', hasQuery: true },
   getCart: { url: '/cart/getCart', hasQuery: false },
   // Price Controller
   addPrice: { url: '/price/addPrice', hasQuery: false },
@@ -70,7 +78,7 @@ export const secureAPIURIs = {
   getPrice: { url: '/price/getPrice', hasQuery: true },
   getPricesByMerchantId: {
     url: '/price/getPricesByMerchantId',
-    hasQuery: false,
+    hasQuery: true,
   },
   // Product Controller
   createProduct: { url: '/product/createProduct', hasQuery: false },
@@ -96,9 +104,39 @@ export const secureAPIURIs = {
   getKycApproval: { url: '/kyc/getKycApproval', hasQuery: true },
   getKYCApprovalByMerchantManufacturerId: {
     url: '/kyc/getKYCApprovalByMerchantManufacturerId',
-    hasQuery: false,
+    hasQuery: true,
   },
   // KYCImage Controller
-  addKYCImage: { url: 'kyc-image/addKYCImage', hasQuery: false },
-  deleteKYCImage: { url: 'kyc-image/deleteKYCImage', hasQuery: false },
+  addKYCImage: { url: '/kyc-image/addKYCImage', hasQuery: false },
+  deleteKYCImage: { url: '/kyc-image/deleteKYCImage', hasQuery: false },
+  // Order Controller
+  createSingleProductOrder: {
+    url: '/order/createSingleProductOrder',
+    hasQuery: false,
+  },
+  getOrderPrefills: {
+    url: '/order/getOrderPrefills',
+    hasQuery: true,
+  },
+  cancelOrder: {
+    url: '/order/cancelOrder',
+    hasQuery: true,
+  },
+  getAllOrdersByUserId: {
+    url: '/order/getAllOrdersByUserId',
+    hasQuery: true,
+  },
+  orderDecisionByMerchant: {
+    url: '/order/orderDecisionByMerchant',
+    hasQuery: false,
+  },
+  getAllMerchantDecisionPendingOrder: {
+    url: '/order/getAllMerchantDecisionPendingOrder',
+    hasQuery: true,
+  },
+  // Payment Controller
+  paymentDone: {
+    url: '/payment/paymentDone',
+    hasQuery: false,
+  },
 };
