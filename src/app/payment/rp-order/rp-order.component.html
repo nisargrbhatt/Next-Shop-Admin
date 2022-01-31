@@ -1,0 +1,106 @@
+<div class="hero">
+  <div class="hero-bar">
+    <button mat-flat-button color="primary" type="button">
+      Orders: {{ totalOrders }}
+    </button>
+    <button mat-flat-button color="primary" type="button" (click)="onRefresh()">
+      Refresh
+    </button>
+  </div>
+
+  <mat-drawer-container hasBackdrop="false">
+    <mat-drawer-content>
+      <div class="hero-order">
+        <div class="hero-order-table" *ngIf="orderData">
+          <app-order-list-table
+            [orderData]="orderData"
+            (selectOrder)="onSelectOrder($event); drawer.toggle()"
+            (pageEvent)="onPageChange($event)"
+          ></app-order-list-table>
+        </div>
+      </div>
+    </mat-drawer-content>
+    <mat-drawer #drawer mode="over" position="end">
+      <div class="hero-order-details">
+        <button
+          mat-icon-button
+          type="button"
+          id="order-details-close-btn"
+          (click)="drawer.toggle()"
+        >
+          <mat-icon>close</mat-icon>
+        </button>
+        <br />
+        <br />
+
+        <table class="order-details-table" *ngIf="selectedOrder">
+          <tr>
+            <td class="label">Id</td>
+            <td class="value">{{ selectedOrder.id }}</td>
+          </tr>
+          <tr>
+            <td class="label">Total Amount</td>
+            <td class="value">
+              {{ selectedOrder.amount / 100 | currency: 'INR' }}
+            </td>
+          </tr>
+          <tr>
+            <td class="label">Amount Paid</td>
+            <td class="value">
+              {{ selectedOrder.amount_paid / 100 | currency: 'INR' }}
+            </td>
+          </tr>
+          <tr>
+            <td class="label">Amount Due</td>
+            <td class="value">
+              {{ selectedOrder.amount_due / 100 | currency: 'INR' }}
+            </td>
+          </tr>
+          <tr>
+            <td class="label">Currency</td>
+            <td class="value">{{ selectedOrder.currency }}</td>
+          </tr>
+          <tr>
+            <td class="label">Status</td>
+            <td class="value">{{ selectedOrder.status }}</td>
+          </tr>
+          <tr>
+            <td class="label">Attempts</td>
+            <td class="value">{{ selectedOrder.attempts }}</td>
+          </tr>
+          <tr>
+            <td class="label">Notes</td>
+            <td class="value">
+              <table class="order-details-notes-table">
+                <tr>
+                  <td class="label">Product Name</td>
+                  <td class="value">{{ selectedOrder.notes?.product_name }}</td>
+                </tr>
+                <tr>
+                  <td class="label">Quantity</td>
+                  <td class="value">{{ selectedOrder.notes?.quantity }}</td>
+                </tr>
+                <tr>
+                  <td class="label">User Id</td>
+                  <td class="value">{{ selectedOrder.notes?.userId }}</td>
+                </tr>
+                <tr>
+                  <td class="label">Product Id</td>
+                  <td class="value">{{ selectedOrder.notes?.productId }}</td>
+                </tr>
+                <tr>
+                  <td class="label">Price Id</td>
+                  <td class="value">{{ selectedOrder.notes?.priceId }}</td>
+                </tr>
+              </table>
+            </td>
+          </tr>
+          <tr>
+            <td class="label">Created At</td>
+            <td class="value">{{ selectedOrder.created_at | date }}</td>
+          </tr>
+        </table>
+      </div>
+    </mat-drawer>
+  </mat-drawer-container>
+</div>

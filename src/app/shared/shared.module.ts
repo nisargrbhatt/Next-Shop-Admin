@@ -12,6 +12,9 @@ import { ConfirmComponent } from './dialog/confirm/confirm.component';
 import { KycDeclineComponent } from './dialog/kyc-decline/kyc-decline.component';
 import { ProductCardSmallComponent } from './product/product-card-small/product-card-small.component';
 import { ProductCardLongComponent } from './product/product-card-long/product-card-long.component';
+import { CustomerListTableComponent } from './payment/customer-list-table/customer-list-table.component';
+import { PaymentListTableComponent } from './payment/payment-list-table/payment-list-table.component';
+import { OrderListTableComponent } from './payment/order-list-table/order-list-table.component';
 @NgModule({
   imports: [CommonModule, AngularMaterialModule, RouterModule],
   declarations: [
@@ -25,6 +28,9 @@ import { ProductCardLongComponent } from './product/product-card-long/product-ca
     KycDeclineComponent,
     ProductCardSmallComponent,
     ProductCardLongComponent,
+    CustomerListTableComponent,
+    PaymentListTableComponent,
+    OrderListTableComponent,
   ],
   providers: [],
   exports: [
@@ -38,6 +44,9 @@ import { ProductCardLongComponent } from './product/product-card-long/product-ca
     KycDeclineComponent,
     ProductCardSmallComponent,
     ProductCardLongComponent,
+    CustomerListTableComponent,
+    PaymentListTableComponent,
+    OrderListTableComponent,
   ],
 })
 export class SharedModule {}

@@ -1,0 +1,18 @@
+<div class="hero">
+  <div class="hero-bar">
+    <button mat-flat-button color="primary" type="button">
+      Customers: {{ totalCustomers }}
+    </button>
+    <button mat-flat-button color="primary" type="button" (click)="onRefresh()">
+      Refresh
+    </button>
+  </div>
+  <div class="hero-data">
+    <div class="hero-order-table" *ngIf="customerData">
+      <app-customer-list-table
+        [customerData]="customerData"
+        (pageEvent)="onPageChange($event)"
+      ></app-customer-list-table>
+    </div>
+  </div>
+</div>
