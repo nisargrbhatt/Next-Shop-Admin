@@ -11,7 +11,12 @@ import { RpPaymentComponent } from './rp-payment/rp-payment.component';
 import { RpOrderComponent } from './rp-order/rp-order.component';
 
 @NgModule({
-  declarations: [PaymentListComponent, RpCustomerComponent, RpPaymentComponent, RpOrderComponent],
+  declarations: [
+    PaymentListComponent,
+    RpCustomerComponent,
+    RpPaymentComponent,
+    RpOrderComponent,
+  ],
   imports: [
     CommonModule,
     PaymentRoutingModule,

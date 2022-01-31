@@ -8,9 +8,8 @@ describe('PaymentListTableComponent', () => {
 
   beforeEach(async(() => {
     TestBed.configureTestingModule({
-      declarations: [ PaymentListTableComponent ]
-    })
-    .compileComponents();
+      declarations: [PaymentListTableComponent],
+    }).compileComponents();
   }));
 
   beforeEach(() => {

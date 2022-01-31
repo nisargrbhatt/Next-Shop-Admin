@@ -8,9 +8,8 @@ describe('OrderListTableComponent', () => {
 
   beforeEach(async(() => {
     TestBed.configureTestingModule({
-      declarations: [ OrderListTableComponent ]
-    })
-    .compileComponents();
+      declarations: [OrderListTableComponent],
+    }).compileComponents();
   }));
 
   beforeEach(() => {
