@@ -176,4 +176,17 @@ export const secureAPIURIs = {
     url: '/transaction/getRazorpayCustomer',
     hasQuery: true,
   },
+  // Analytic Controller
+  getAllAuthorisedOrdersOfPlayformByMonth: {
+    url: '/analytic/getAllAuthorisedOrdersOfPlayformByMonth',
+    hasQuery: false,
+  },
+  getAllOrdersOfPlayformByMonth: {
+    url: '/analytic/getAllOrdersOfPlayformByMonth',
+    hasQuery: false,
+  },
+  getAllPaymentsOfPlayformByMonth: {
+    url: '/analytic/getAllPaymentsOfPlayformByMonth',
+    hasQuery: false,
+  },
 };
