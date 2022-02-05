@@ -28,6 +28,7 @@
     "@auth0/auth0-angular": "^1.8.1",
     "@ng-bootstrap/ng-bootstrap": "^8.0.4",
     "bootstrap": "^4.6.1",
+    "chart.js": "^3.7.0",
     "ngx-viewer": "^1.0.8",
     "rxjs": "~6.5.5",
     "subsink": "^1.0.2",

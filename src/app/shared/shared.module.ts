@@ -15,6 +15,7 @@ import { ProductCardLongComponent } from './product/product-card-long/product-ca
 import { CustomerListTableComponent } from './payment/customer-list-table/customer-list-table.component';
 import { PaymentListTableComponent } from './payment/payment-list-table/payment-list-table.component';
 import { OrderListTableComponent } from './payment/order-list-table/order-list-table.component';
+import { BarLineChartComponent } from './charts/bar-line-chart/bar-line-chart.component';
 @NgModule({
   imports: [CommonModule, AngularMaterialModule, RouterModule],
   declarations: [
@@ -31,6 +32,7 @@ import { OrderListTableComponent } from './payment/order-list-table/order-list-t
     CustomerListTableComponent,
     PaymentListTableComponent,
     OrderListTableComponent,
+    BarLineChartComponent,
   ],
   providers: [],
   exports: [
@@ -47,6 +49,7 @@ import { OrderListTableComponent } from './payment/order-list-table/order-list-t
     CustomerListTableComponent,
     PaymentListTableComponent,
     OrderListTableComponent,
+    BarLineChartComponent,
   ],
 })
 export class SharedModule {}
