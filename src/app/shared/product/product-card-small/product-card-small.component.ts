@@ -6,7 +6,7 @@ import { Component, EventEmitter, Input, OnInit, Output } from '@angular/core';
   templateUrl: './product-card-small.component.html',
   styleUrls: ['./product-card-small.component.scss'],
 })
-export class ProductCardSmallComponent implements OnInit {
+export class ProductCardSmallComponent {
   @Input() productDetails: ProductCardSmallDetails;
   @Input() cardHeight: number;
   @Input() cardWidth: number;
@@ -16,6 +16,4 @@ export class ProductCardSmallComponent implements OnInit {
   @Output() actionClick: EventEmitter<string> = new EventEmitter<string>();
 
   constructor() {}
-
-  ngOnInit(): void {}
 }

@@ -4,3 +4,6 @@
   [paymentChartData]="paymentChartData"
   *ngIf="authorisedChartData && allChartData && paymentChartData"
 ></app-bar-line-chart>
+<app-loader
+  *ngIf="!(authorisedChartData && allChartData && paymentChartData)"
+></app-loader>

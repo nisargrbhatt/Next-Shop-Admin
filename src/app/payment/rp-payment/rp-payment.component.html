@@ -1,4 +1,4 @@
-<div class="hero">
+<!-- <div class="hero">
   <div class="hero-bar">
     <button mat-flat-button color="primary" type="button">
       Payments: {{ totalPayments }}
@@ -148,6 +148,166 @@
             <td class="value">{{ selectedPayment.created_at | date }}</td>
           </tr>
         </table>
+      </div>
+    </mat-drawer>
+  </mat-drawer-container>
+</div> -->
+<app-loader *ngIf="!paymentData"></app-loader>
+
+<!-- NEW DESIGN -->
+<div class="hero" *ngIf="paymentData">
+  <mat-toolbar color="primary">
+    <button mat-flat-button color="primary" type="button">
+      Payments: {{ totalPayments }}
+    </button>
+    <button mat-flat-button color="primary" type="button" (click)="onRefresh()">
+      Refresh
+    </button></mat-toolbar
+  >
+  <mat-drawer-container hasBackdrop="false">
+    <mat-drawer-content>
+      <app-payment-list-table
+        [paymentData]="paymentData"
+        (selectPayment)="onSelectPayment($event); drawer.toggle()"
+        (pageEvent)="onPageChange($event)"
+      ></app-payment-list-table>
+    </mat-drawer-content>
+    <mat-drawer #drawer mode="over" position="end">
+      <div class="hero-order-details">
+        <button
+          mat-icon-button
+          type="button"
+          id="order-details-close-btn"
+          (click)="drawer.toggle()"
+        >
+          <mat-icon>close</mat-icon>
+        </button>
+        <br />
+        <br />
+
+        <div class="" *ngIf="selectedPayment">
+          <p class="mat-subheading-2">
+            Id: <span class="mat-subheading-1">{{ selectedPayment.id }}</span>
+          </p>
+          <p class="mat-subheading-2">
+            Amount:
+            <span class="mat-subheading-1">{{
+              selectedPayment.amount / 100 | currency: 'INR'
+            }}</span>
+          </p>
+          <p class="mat-subheading-2">
+            Currency:
+            <span class="mat-subheading-1">{{ selectedPayment.currency }}</span>
+          </p>
+          <p class="mat-subheading-2">
+            Status:
+            <span class="mat-subheading-1">{{ selectedPayment.status }}</span>
+          </p>
+          <p class="mat-subheading-2">
+            Order Id:
+            <span class="mat-subheading-1">{{ selectedPayment.order_id }}</span>
+          </p>
+          <p class="mat-subheading-2" *ngIf="selectedPayment.invoice_id">
+            Invoice Id:
+            <span class="mat-subheading-1">{{
+              selectedPayment.invoice_id
+            }}</span>
+          </p>
+          <p class="mat-subheading-2" *ngIf="selectedPayment.method">
+            Method:
+            <span class="mat-subheading-1">{{ selectedPayment.method }}</span>
+          </p>
+          <p class="mat-subheading-2" *ngIf="selectedPayment.amount_refunded">
+            Amount Refunded:
+            <span class="mat-subheading-1">{{
+              selectedPayment.amount_refunded / 100 | currency: 'INR'
+            }}</span>
+          </p>
+          <p
+            class="mat-subheading-2"
+            *ngIf="selectedPayment.refund_status !== null"
+          >
+            Refund Status:
+            <span class="mat-subheading-1">{{
+              selectedPayment.refund_status
+            }}</span>
+          </p>
+          <p class="mat-subheading-2" *ngIf="selectedPayment.captured !== null">
+            Payment Captured:
+            <span class="mat-subheading-1">{{ selectedPayment.captured }}</span>
+          </p>
+          <p class="mat-subheading-2" *ngIf="selectedPayment.description">
+            Description:
+            <span class="mat-subheading-1">{{
+              selectedPayment.description
+            }}</span>
+          </p>
+          <p class="mat-subheading-2" *ngIf="selectedPayment.card_id">
+            Card Id:
+            <span class="mat-subheading-1">{{ selectedPayment.card_id }}</span>
+          </p>
+          <p class="mat-subheading-2" *ngIf="selectedPayment.bank">
+            Bank:
+            <span class="mat-subheading-1">{{ selectedPayment.bank }}</span>
+          </p>
+          <p class="mat-subheading-2" *ngIf="selectedPayment.wallet">
+            Wallet:
+            <span class="mat-subheading-1">{{ selectedPayment.wallet }}</span>
+          </p>
+          <p class="mat-subheading-2" *ngIf="selectedPayment.vpa">
+            Vpa: <span class="mat-subheading-1">{{ selectedPayment.vpa }}</span>
+          </p>
+          <p class="mat-subheading-2" *ngIf="selectedPayment.email">
+            Email:
+            <span class="mat-subheading-1">{{ selectedPayment.email }}</span>
+          </p>
+          <p class="mat-subheading-2" *ngIf="selectedPayment.contact">
+            Contact No:
+            <span class="mat-subheading-1">{{ selectedPayment.contact }}</span>
+          </p>
+          <p class="mat-subheading-2">
+            Product Name:
+            <span class="mat-subheading-1">{{
+              selectedPayment.notes?.product_name
+            }}</span>
+          </p>
+          <p class="mat-subheading-2">
+            Quantity:
+            <span class="mat-subheading-1">{{
+              selectedPayment.notes?.quantity
+            }}</span>
+          </p>
+          <p class="mat-subheading-2">
+            Product Id:
+            <span class="mat-subheading-1">{{
+              selectedPayment.notes?.productId
+            }}</span>
+          </p>
+          <p class="mat-subheading-2">
+            User Id:
+            <span class="mat-subheading-1">{{
+              selectedPayment.notes?.userId
+            }}</span>
+          </p>
+          <p class="mat-subheading-2">
+            Price Id:
+            <span class="mat-subheading-1">{{
+              selectedPayment.notes?.priceId
+            }}</span>
+          </p>
+          <p class="mat-subheading-2" *ngIf="selectedPayment.fee">
+            Fee: <span class="mat-subheading-1">{{ selectedPayment.fee }}</span>
+          </p>
+          <p class="mat-subheading-2" *ngIf="selectedPayment.tax">
+            Tax: <span class="mat-subheading-1">{{ selectedPayment.tax }}</span>
+          </p>
+          <p class="mat-subheading-2">
+            Created At:
+            <span class="mat-subheading-1">{{
+              selectedPayment.created_at | date
+            }}</span>
+          </p>
+        </div>
       </div>
     </mat-drawer>
   </mat-drawer-container>

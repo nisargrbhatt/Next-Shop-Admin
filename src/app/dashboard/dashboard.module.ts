@@ -6,9 +6,10 @@ import { HomeComponent } from './home/home.component';
 import { RouterModule } from '@angular/router';
 import { AngularMaterialModule } from '../angular-material.module';
 import { SharedModule } from '../shared/shared.module';
+import { HomeBannerComponent } from './home-banner/home-banner.component';
 
 @NgModule({
-  declarations: [HomeComponent],
+  declarations: [HomeComponent, HomeBannerComponent],
   imports: [
     CommonModule,
     DashboardRoutingModule,

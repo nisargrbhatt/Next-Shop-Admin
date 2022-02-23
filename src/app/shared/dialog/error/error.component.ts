@@ -7,11 +7,9 @@ import { MatDialogRef, MAT_DIALOG_DATA } from '@angular/material/dialog';
   templateUrl: './error.component.html',
   styleUrls: ['./error.component.scss'],
 })
-export class ErrorComponent implements OnInit {
+export class ErrorComponent {
   constructor(
     public dialogRef: MatDialogRef<ErrorComponent>,
     @Inject(MAT_DIALOG_DATA) public dialogData: DialogData,
   ) {}
-
-  ngOnInit(): void {}
 }

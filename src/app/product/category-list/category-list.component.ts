@@ -1,4 +1,4 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, OnDestroy, OnInit } from '@angular/core';
 import {
   FormControl,
   FormGroup,
@@ -7,6 +7,7 @@ import {
 } from '@angular/forms';
 import { Subject } from 'rxjs';
 import { debounceTime, switchMap } from 'rxjs/operators';
+import { SubSink } from 'subsink';
 import {
   AddCategoryData,
   GetAllCategoriesResponseData,
@@ -18,23 +19,34 @@ import { CategoryService } from '../category.service';
   templateUrl: './category-list.component.html',
   styleUrls: ['./category-list.component.scss'],
 })
-export class CategoryListComponent implements OnInit {
+export class CategoryListComponent implements OnInit, OnDestroy {
+  private subs = new SubSink();
+
   categoryForm: FormGroup;
   categoriesData: GetAllCategoriesResponseData;
   refresh = new Subject<number>();
   refresh$ = this.refresh.asObservable();
 
+  mybreakpoint: number;
+
   constructor(private categoryService: CategoryService) {}
 
   ngOnInit(): void {
+    this.mybreakpoint = window.innerWidth <= 1000 ? 2 : 4;
+    if (window.innerWidth <= 532) {
+      this.mybreakpoint = 1;
+    }
+
     this.categoryForm = new FormGroup({
       name: new FormControl('', { validators: [Validators.required] }),
     });
 
-    this.categoryService.getAllCategories().subscribe((data) => {
-      this.categoriesData = data;
-    });
-    this.refresh$
+    this.subs.sink = this.categoryService
+      .getAllCategories()
+      .subscribe((data) => {
+        this.categoriesData = data;
+      });
+    this.subs.sink = this.refresh$
       .pipe(
         debounceTime(500),
         switchMap(() => this.categoryService.getAllCategories()),
@@ -63,5 +75,16 @@ export class CategoryListComponent implements OnInit {
       name,
     };
     this.categoryService.updateCategory(updateCategoryData);
+  }
+
+  handleSize(event: any): void {
+    this.mybreakpoint = event.target.innerWidth <= 1000 ? 2 : 4;
+    if (event.target.innerWidth <= 532) {
+      this.mybreakpoint = 1;
+    }
+  }
+
+  ngOnDestroy(): void {
+    this.subs.unsubscribe();
   }
 }

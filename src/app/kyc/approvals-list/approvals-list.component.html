@@ -1,4 +1,4 @@
-<div class="hero">
+<!-- <div class="hero">
   <div class="hero-bar">
     <div class="hero-bar-spacer"></div>
     <button mat-raised-button color="primary" (click)="onRefresh()">
@@ -9,7 +9,7 @@
     <div class="hero-data-bar">
       <div class="hero-data-bar-count">
         <button mat-flat-button color="primary">
-          Approvals: {{ kycApprovals ? kycApprovals.count : 0 }}
+          Approvals: {{ totalApprovals }}
         </button>
       </div>
       <div class="hero-data-bar-spacer"></div>
@@ -27,6 +27,7 @@
         </mat-form-field>
       </div>
     </div>
+
     <div class="hero-data-result" *ngIf="kycApprovals">
       <mat-accordion multi="true">
         <mat-expansion-panel *ngFor="let kycApproval of kycApprovals.rows">
@@ -57,5 +58,66 @@
       ></mat-paginator>
     </div>
   </div>
-  <app-loader *ngIf="!kycApprovals"></app-loader>
+</div> -->
+
+<app-loader *ngIf="!kycApprovals"></app-loader>
+
+<!-- NEW DESIGN -->
+<div class="hero" *ngIf="kycApprovals">
+  <mat-toolbar color="primary">
+    <div class="part-one">
+      <button mat-flat-button color="primary">
+        Approvals: {{ totalApprovals }}
+      </button>
+    </div>
+    <div class="part-two">
+      <mat-form-field appearance="fill">
+        <button matPrefix mat-icon-button>
+          <mat-icon style="color: white">search</mat-icon>
+        </button>
+        <input
+          type="text"
+          matInput
+          [formControl]="search"
+          style="color: white"
+        />
+      </mat-form-field>
+    </div>
+    <div class="part-three">
+      <button mat-flat-button color="primary" (click)="onRefresh()">
+        <mat-icon>refresh</mat-icon> Refresh
+      </button>
+    </div>
+  </mat-toolbar>
+  <mat-accordion multi="true">
+    <mat-expansion-panel *ngFor="let kycApproval of kycApprovals.rows">
+      <mat-expansion-panel-header>
+        <mat-panel-title>{{ kycApproval.name }}</mat-panel-title>
+        <mat-panel-description>{{
+          kycApproval.aadhaar_number
+        }}</mat-panel-description>
+      </mat-expansion-panel-header>
+      <mat-action-row>
+        <button
+          mat-button
+          color="primary"
+          [routerLink]="['/kyc/approval', kycApproval.id]"
+        >
+          Open
+        </button>
+      </mat-action-row>
+    </mat-expansion-panel>
+    <div
+      class="mat-subheading-2"
+      style="text-align: center"
+      *ngIf="kycApprovals.count === 0"
+    >
+      No Approvals Found
+    </div>
+  </mat-accordion>
+  <mat-paginator
+    [length]="totalApprovals"
+    [pageSize]="approvalsPerPage"
+    (page)="onPageChange($event)"
+  ></mat-paginator>
 </div>

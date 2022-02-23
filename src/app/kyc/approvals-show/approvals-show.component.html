@@ -1,4 +1,4 @@
-<div class="hero" *ngIf="kycApproval">
+<!-- <div class="hero" *ngIf="kycApproval">
   <div class="info-bar">KYC Approval</div>
   <div class="hero-kyc-cover">
     <div class="kyc-image">
@@ -59,7 +59,7 @@
     </div>
   </div>
 
-  <!-- User Information -->
+  User Information
   <div class="info-bar">User Information</div>
   <div class="hero-user-cover">
     <div class="user-info">
@@ -121,6 +121,130 @@
       </table>
     </div>
   </div>
-</div>
+</div> -->
 
 <app-loader *ngIf="!kycApproval"></app-loader>
+
+<!-- NEW DESIGN -->
+<div class="hero" *ngIf="kycApproval">
+  <div class="kyc-images">
+    <div class="kyc-big-image">
+      <img
+        [src]="kycApproval.images[selectedImage].url"
+        [alt]="kycApproval.images[selectedImage].name"
+      />
+    </div>
+    <div class="kyc-small-images">
+      <img
+        *ngFor="let image of kycApproval.images; let i = index"
+        [src]="image.url"
+        [alt]="image.name"
+        (mouseover)="selectedImage = i"
+      />
+    </div>
+  </div>
+  <div class="kyc-details">
+    <mat-accordion>
+      <mat-expansion-panel>
+        <mat-expansion-panel-header>
+          <mat-panel-title>KYC DETAILS</mat-panel-title>
+        </mat-expansion-panel-header>
+        <p class="mat-subheading-2">
+          Aadhaar Name:
+          <span class="mat-subheading-1">{{ kycApproval.name }}</span>
+        </p>
+        <p class="mat-subheading-2">
+          Aadhaar Number:
+          <span class="mat-subheading-1">{{ kycApproval.aadhaar_number }}</span>
+        </p>
+        <p class="mat-subheading-2">
+          Aadhaar Contact No:
+          <span class="mat-subheading-1">{{ kycApproval.contact_no }}</span>
+        </p>
+        <p class="mat-subheading-2">
+          Aadhaar Email:
+          <span class="mat-subheading-1">{{ kycApproval.email }}</span>
+        </p>
+        <p class="mat-subheading-2">
+          Approval Requested:
+          <span class="mat-subheading-1">{{
+            kycApproval.createdAt | date
+          }}</span>
+        </p>
+        <mat-action-row>
+          <button
+            mat-raised-button
+            style="color: white; fill: white; background-color: green"
+            (click)="acceptTheApproval()"
+          >
+            <mat-icon>assignment_turned_in</mat-icon> Accept
+          </button>
+          <button mat-raised-button color="warn" (click)="rejectTheApproval()">
+            <mat-icon>block</mat-icon> Reject
+          </button>
+        </mat-action-row>
+      </mat-expansion-panel>
+    </mat-accordion>
+    <mat-accordion>
+      <mat-expansion-panel>
+        <mat-expansion-panel-header>
+          <mat-panel-title>USER INFO</mat-panel-title>
+        </mat-expansion-panel-header>
+        <p class="mat-subheading-2">
+          Name:
+          <span class="mat-subheading-1">{{ kycApproval.user.name }}</span>
+        </p>
+        <p class="mat-subheading-2">
+          Email:
+          <span class="mat-subheading-1">{{ kycApproval.user.email }}</span>
+        </p>
+        <p class="mat-subheading-2" *ngIf="kycApproval.user.contact_no">
+          Contact No:
+          <span class="mat-subheading-1">{{
+            kycApproval.user.contact_no
+          }}</span>
+        </p>
+        <p class="mat-subheading-2" *ngIf="kycApproval.user.role">
+          Role:
+          <span class="mat-subheading-1">{{ kycApproval.user.role }}</span>
+        </p>
+        <p class="mat-subheading-2">
+          Email Verified:
+          <span class="mat-subheading-1"
+            ><mat-icon
+              *ngIf="kycApproval.user.email_verified"
+              style="color: green"
+              >check</mat-icon
+            >
+            <mat-icon
+              *ngIf="!kycApproval.user.email_verified"
+              style="color: red"
+              >close</mat-icon
+            ></span
+          >
+        </p>
+        <p class="mat-subheading-2">
+          KYC Verified:
+          <span class="mat-subheading-1"
+            ><mat-icon
+              *ngIf="kycApproval.user.merchant_or_manufacturer_verified"
+              style="color: green"
+              >check</mat-icon
+            >
+            <mat-icon
+              *ngIf="!kycApproval.user.merchant_or_manufacturer_verified"
+              style="color: red"
+              >close</mat-icon
+            ></span
+          >
+        </p>
+        <p class="mat-subheading-2">
+          User Created:
+          <span class="mat-subheading-1">{{
+            kycApproval.user.createdAt | date
+          }}</span>
+        </p>
+      </mat-expansion-panel>
+    </mat-accordion>
+  </div>
+</div>

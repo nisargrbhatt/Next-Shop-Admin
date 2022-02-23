@@ -1,4 +1,4 @@
-<div class="hero">
+<!-- <div class="hero">
   <div class="hero-bar">
     <button mat-flat-button color="primary" type="button">
       Orders: {{ totalOrders }}
@@ -100,6 +100,113 @@
             <td class="value">{{ selectedOrder.created_at | date }}</td>
           </tr>
         </table>
+      </div>
+    </mat-drawer>
+  </mat-drawer-container>
+</div> -->
+<app-loader *ngIf="!orderData"></app-loader>
+
+<!-- NEW DESIGN -->
+<div class="hero" *ngIf="orderData">
+  <mat-toolbar color="primary">
+    <button mat-flat-button color="primary" type="button">
+      Orders: {{ totalOrders }}
+    </button>
+    <button mat-flat-button color="primary" type="button" (click)="onRefresh()">
+      Refresh
+    </button>
+  </mat-toolbar>
+  <mat-drawer-container hasBackdrop="false">
+    <mat-drawer-content>
+      <app-order-list-table
+        [orderData]="orderData"
+        (selectOrder)="onSelectOrder($event); drawer.toggle()"
+        (pageEvent)="onPageChange($event)"
+      ></app-order-list-table>
+    </mat-drawer-content>
+    <mat-drawer #drawer mode="over" position="end">
+      <div class="hero-order-details">
+        <button
+          mat-icon-button
+          type="button"
+          id="order-details-close-btn"
+          (click)="drawer.toggle()"
+        >
+          <mat-icon>close</mat-icon>
+        </button>
+        <br />
+        <br />
+        <div class="" *ngIf="selectedOrder">
+          <p class="mat-subheading-2">
+            Id: <span class="mat-subheading-1">{{ selectedOrder.id }}</span>
+          </p>
+          <p class="mat-subheading-2">
+            Total Amount:
+            <span class="mat-subheading-1">{{
+              selectedOrder.amount / 100 | currency: 'INR'
+            }}</span>
+          </p>
+          <p class="mat-subheading-2">
+            Amount Paid:
+            <span class="mat-subheading-1">{{
+              selectedOrder.amount_paid / 100 | currency: 'INR'
+            }}</span>
+          </p>
+          <p class="mat-subheading-2">
+            Amount Due:
+            <span class="mat-subheading-1">{{
+              selectedOrder.amount_due / 100 | currency: 'INR'
+            }}</span>
+          </p>
+          <p class="mat-subheading-2">
+            Currency:
+            <span class="mat-subheading-1">{{ selectedOrder.currency }}</span>
+          </p>
+          <p class="mat-subheading-2">
+            Status:
+            <span class="mat-subheading-1">{{ selectedOrder.status }}</span>
+          </p>
+          <p class="mat-subheading-2">
+            Attempts:
+            <span class="mat-subheading-1">{{ selectedOrder.attempts }}</span>
+          </p>
+          <p class="mat-subheading-2">
+            Created At:
+            <span class="mat-subheading-1">{{
+              selectedOrder.created_at | date
+            }}</span>
+          </p>
+          <p class="mat-subheading-2">
+            Product Name:
+            <span class="mat-subheading-1">{{
+              selectedOrder.notes?.product_name
+            }}</span>
+          </p>
+          <p class="mat-subheading-2">
+            Quantity:
+            <span class="mat-subheading-1">{{
+              selectedOrder.notes?.quantity
+            }}</span>
+          </p>
+          <p class="mat-subheading-2">
+            User Id:
+            <span class="mat-subheading-1">{{
+              selectedOrder.notes?.userId
+            }}</span>
+          </p>
+          <p class="mat-subheading-2">
+            Product Id:
+            <span class="mat-subheading-1">{{
+              selectedOrder.notes?.productId
+            }}</span>
+          </p>
+          <p class="mat-subheading-2">
+            Price Id:
+            <span class="mat-subheading-1">{{
+              selectedOrder.notes?.priceId
+            }}</span>
+          </p>
+        </div>
       </div>
     </mat-drawer>
   </mat-drawer-container>

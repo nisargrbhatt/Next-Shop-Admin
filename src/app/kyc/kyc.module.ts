@@ -8,8 +8,6 @@ import { SharedModule } from '../shared/shared.module';
 import { ApprovalsListComponent } from './approvals-list/approvals-list.component';
 import { ApprovalsShowComponent } from './approvals-show/approvals-show.component';
 
-import { NgxViewerModule } from 'ngx-viewer';
-
 @NgModule({
   declarations: [ApprovalsListComponent, ApprovalsShowComponent],
   imports: [
@@ -18,7 +16,6 @@ import { NgxViewerModule } from 'ngx-viewer';
     AngularMaterialModule,
     SharedModule,
     RouterModule,
-    NgxViewerModule,
   ],
 })
 export class KycModule {}
