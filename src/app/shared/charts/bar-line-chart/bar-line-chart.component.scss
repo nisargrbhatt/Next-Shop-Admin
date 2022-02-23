@@ -1,0 +1,34 @@
+.hero {
+  padding: 0;
+  margin: 0;
+}
+
+canvas {
+  width: 40vw;
+  height: 40vh;
+}
+
+.part-one {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
+.part-two {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
+
+@media screen and (max-width: 756px) {
+  .part-one {
+    flex-direction: column;
+  }
+  .part-two {
+    flex-direction: column;
+  }
+
+  canvas {
+    width: 90vw;
+    height: 50vh;
+  }
+}
