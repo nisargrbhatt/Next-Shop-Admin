@@ -6,10 +6,8 @@ import { Component, Input, OnInit } from '@angular/core';
   templateUrl: './product-card-long.component.html',
   styleUrls: ['./product-card-long.component.scss'],
 })
-export class ProductCardLongComponent implements OnInit {
+export class ProductCardLongComponent {
   @Input() productDetails: ProductCardLongDetails;
 
   constructor() {}
-
-  ngOnInit(): void {}
 }

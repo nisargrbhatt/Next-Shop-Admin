@@ -24,7 +24,8 @@ export class ApprovalsShowComponent implements OnInit, OnDestroy {
   kycId: string;
 
   kycApproval: FindKYCApprovalResponseDataRows;
-  imageSelect = 0;
+
+  selectedImage = 0;
 
   constructor(
     private kycService: KycService,
@@ -35,8 +36,8 @@ export class ApprovalsShowComponent implements OnInit, OnDestroy {
   ) {}
 
   ngOnInit(): void {
-    if (this.route.snapshot.params.id) {
-      this.kycId = this.route.snapshot.params.id;
+    if (this.route.snapshot.params['id']) {
+      this.kycId = this.route.snapshot.params['id'];
     }
 
     this.subs.sink = this.kycService

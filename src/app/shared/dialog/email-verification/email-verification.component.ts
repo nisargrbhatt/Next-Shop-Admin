@@ -6,8 +6,6 @@ import { MatDialogRef } from '@angular/material/dialog';
   templateUrl: './email-verification.component.html',
   styleUrls: ['./email-verification.component.scss'],
 })
-export class EmailVerificationComponent implements OnInit {
+export class EmailVerificationComponent {
   constructor(public dialogRef: MatDialogRef<EmailVerificationComponent>) {}
-
-  ngOnInit(): void {}
 }

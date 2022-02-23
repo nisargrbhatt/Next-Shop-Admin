@@ -18,6 +18,8 @@ export class ProductApprovalShowComponent implements OnInit, OnDestroy {
 
   productDetails: any;
 
+  selectedImage = 0;
+
   constructor(
     private route: ActivatedRoute,
     private productService: ProductService,
@@ -26,8 +28,8 @@ export class ProductApprovalShowComponent implements OnInit, OnDestroy {
   ) {}
 
   ngOnInit(): void {
-    if (this.route.snapshot.params.id) {
-      this.productId = this.route.snapshot.params.id;
+    if (this.route.snapshot.params['id']) {
+      this.productId = this.route.snapshot.params['id'];
     } else {
       this.router.navigate(['/product']);
     }

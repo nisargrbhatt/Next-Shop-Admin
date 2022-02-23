@@ -1,3 +1,19 @@
-mat-card {
-  margin: 1rem;
+.hero {
+  margin: 0;
+  padding: 0;
+}
+
+.hero-create-form {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  margin: 0.5rem;
+}
+
+.example-card {
+  max-width: 450px;
+  margin: 0.5rem;
+}
+.form-submit-btn {
+  margin: 0.5rem;
 }

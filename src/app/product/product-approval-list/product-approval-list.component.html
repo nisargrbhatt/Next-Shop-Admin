@@ -1,6 +1,5 @@
-<div class="hero">
+<!-- <div class="hero">
   <div class="hero-bar">
-    <!-- <div class="hero-bar-spacer"></div> -->
     <button
       mat-raised-button
       color="accent"
@@ -36,25 +35,28 @@
     </div>
     <div class="hero-data-result" *ngIf="productApprovals">
       <mat-accordion multi="true">
-        <div class="container-fluid">
-          <div class="row" style="margin-left: 3%; margin-right: 3%">
-            <div
-              class="col-xs-6 col-md-4"
-              *ngFor="let product of productApprovals.rows"
-            >
-              <app-product-card-small
-                [productDetails]="getProductCardDetails(product)"
-                [cardHeight]="32"
-                [cardWidth]="25"
-                actionName="Open"
-                actionIcon="open_in_full"
-                (actionClick)="onProductClick($event)"
-                [review]="getReviewStar(product)"
-              ></app-product-card-small>
-            </div>
-          </div>
-        </div>
-        <div class="hero-data-result-null" *ngIf="totalApprovals === 0">
+        <mat-grid-list
+          [cols]="mybreakpoint"
+          rowHeight="450px"
+          (window:resize)="handleSize($event)"
+        >
+          <mat-grid-tile *ngFor="let product of productApprovals.rows">
+            <app-product-card-small
+              [productDetails]="getProductCardDetails(product)"
+              [cardHeight]="32"
+              [cardWidth]="25"
+              actionName="Open"
+              actionIcon="open_in_full"
+              (actionClick)="onProductClick($event)"
+              [review]="getReviewStar(product)"
+            ></app-product-card-small>
+          </mat-grid-tile>
+        </mat-grid-list>
+        <div
+          class="mat-subheading-2"
+          style="text-align: center"
+          *ngIf="totalApprovals === 0"
+        >
           No Approvals Found
         </div>
       </mat-accordion>
@@ -65,5 +67,62 @@
       ></mat-paginator>
     </div>
   </div>
-  <app-loader *ngIf="!productApprovals"></app-loader>
+</div> -->
+<app-loader *ngIf="!productApprovals"></app-loader>
+
+<!-- NEW DESIGN -->
+<div class="hero" *ngIf="productApprovals">
+  <mat-toolbar color="primary">
+    <button mat-flat-button color="primary">
+      Approvals: {{ totalApprovals }}
+    </button>
+    <mat-form-field appearance="fill">
+      <button matPrefix mat-icon-button>
+        <mat-icon style="color: white">search</mat-icon>
+      </button>
+      <input type="text" matInput [formControl]="search" style="color: white" />
+    </mat-form-field>
+    <button
+      mat-flat-button
+      color="primary"
+      [routerLink]="['/product/category']"
+    >
+      Categories
+    </button>
+    <button mat-flat-button color="primary" (click)="onRefresh()">
+      <mat-icon>refresh</mat-icon> Refresh
+    </button>
+  </mat-toolbar>
+  <mat-accordion multi="true">
+    <mat-grid-list
+      [cols]="mybreakpoint"
+      rowHeight="450px"
+      (window:resize)="handleSize($event)"
+      *ngIf="productApprovals?.count > 0"
+    >
+      <mat-grid-tile *ngFor="let product of productApprovals.rows">
+        <app-product-card-small
+          [productDetails]="getProductCardDetails(product)"
+          [cardHeight]="32"
+          [cardWidth]="25"
+          actionName="Open"
+          actionIcon="open_in_full"
+          (actionClick)="onProductClick($event)"
+          [review]="getReviewStar(product)"
+        ></app-product-card-small>
+      </mat-grid-tile>
+    </mat-grid-list>
+    <div
+      class="mat-subheading-2"
+      style="text-align: center"
+      *ngIf="totalApprovals === 0"
+    >
+      No Approvals Found
+    </div>
+  </mat-accordion>
+  <mat-paginator
+    [length]="totalApprovals"
+    [pageSize]="approvalsPerPage"
+    (page)="onPageChange($event)"
+  ></mat-paginator>
 </div>

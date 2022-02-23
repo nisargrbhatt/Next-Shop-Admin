@@ -1,4 +1,4 @@
-<div class="hero">
+<!-- <div class="hero">
   <div class="hero-bar">
     <button mat-flat-button color="primary" type="button">
       Customers: {{ totalCustomers }}
@@ -15,4 +15,21 @@
       ></app-customer-list-table>
     </div>
   </div>
+</div> -->
+<app-loader *ngIf="!customerData"></app-loader>
+
+<!-- NEW DESIGN -->
+<div class="hero" *ngIf="customerData">
+  <mat-toolbar color="primary">
+    <button mat-flat-button color="primary" type="button">
+      Customers: {{ totalCustomers }}
+    </button>
+    <button mat-flat-button color="primary" type="button" (click)="onRefresh()">
+      Refresh
+    </button>
+  </mat-toolbar>
+  <app-customer-list-table
+    [customerData]="customerData"
+    (pageEvent)="onPageChange($event)"
+  ></app-customer-list-table>
 </div>

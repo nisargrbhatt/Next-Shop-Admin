@@ -31,9 +31,16 @@ export class ProductApprovalListComponent implements OnInit, OnDestroy {
 
   productApprovals: GetApprovalRequiredProductData;
 
+  mybreakpoint: number;
+
   constructor(private productService: ProductService, private router: Router) {}
 
   ngOnInit(): void {
+    this.mybreakpoint = window.innerWidth <= 1000 ? 2 : 4;
+    if (window.innerWidth <= 532) {
+      this.mybreakpoint = 1;
+    }
+
     this.subs.sink = this.search$
       .pipe(
         debounceTime(500),
@@ -111,10 +118,17 @@ export class ProductApprovalListComponent implements OnInit, OnDestroy {
     if (!total) {
       return [0, 0];
     }
-    const sum = product.reviewes.reduce((previous, current) => {
+    const sum = product.reviewes.reduce((previous: number, current: any) => {
       return previous + current.stars;
     }, 0);
     return [Math.floor(sum / total), total];
+  }
+
+  handleSize(event: any): void {
+    this.mybreakpoint = event.target.innerWidth <= 1000 ? 2 : 4;
+    if (event.target.innerWidth <= 532) {
+      this.mybreakpoint = 1;
+    }
   }
 
   ngOnDestroy(): void {
