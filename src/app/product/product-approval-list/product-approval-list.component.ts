@@ -101,7 +101,7 @@ export class ProductApprovalListComponent implements OnInit, OnDestroy {
   }
 
   onProductClick(id: string): void {
-    this.router.navigate(['/product/approval/' + id]);
+    this.router.navigate(['/product/approval/', id]);
   }
 
   getProductCardDetails(product: any): ProductCardSmallDetails {
