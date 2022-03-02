@@ -1,20 +1,8 @@
-import { VerifyEmailComponent } from '../../verify-email/verify-email.component';
-import {
-  FormGroup,
-  FormControl,
-  Validators,
-  AbstractControl,
-} from '@angular/forms';
-import {
-  GetUserDetailsData,
-  GetUserDetailsResponse,
-} from './../../profile.interface';
 import { Component, OnInit, OnDestroy } from '@angular/core';
 
 import { Subscription } from 'rxjs';
-import { Auth0Service } from 'src/app/auth/auth0.service';
 
-import { User } from '@auth0/auth0-angular';
+import { AuthService, User } from '@auth0/auth0-angular';
 
 @Component({
   selector: 'app-user-details',
@@ -22,28 +10,21 @@ import { User } from '@auth0/auth0-angular';
   styleUrls: ['./user-details.component.scss'],
 })
 export class UserDetailsComponent implements OnInit, OnDestroy {
-  private isAuthenticate = false;
   pageLoding = false;
 
-  public auth0ProfileClaims: User;
+  public auth0ProfileClaims: User | undefined | null;
 
   private authStatusSub: Subscription;
 
-  constructor(private authService: Auth0Service) {}
+  constructor(private auth: AuthService) {}
 
   ngOnInit(): void {
     this.pageLoding = true;
 
-    this.isAuthenticate = this.authService.IsAuth;
-
-    this.authStatusSub = this.authService.AuthStatusListener.subscribe(
-      (authStatus) => {
-        this.isAuthenticate = authStatus;
-      },
-    );
-
-    this.auth0ProfileClaims = this.authService.Auth0ProfileClaims;
-    this.pageLoding = false;
+    this.auth.user$.subscribe((user) => {
+      this.auth0ProfileClaims = user;
+      this.pageLoding = false;
+    });
   }
 
   ngOnDestroy(): void {

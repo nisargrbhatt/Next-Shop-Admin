@@ -58,6 +58,7 @@
     mat-card-image
     [src]="productDetails.image"
     [alt]="productDetails.name"
+    style="max-height: 200px"
   />
   <mat-card-content>
     <div class="flex">
@@ -80,7 +81,7 @@
     <button
       mat-raised-button
       color="primary"
-      (click)="actionClick.emit(productDetails?.slug)"
+      (click)="actionClick.emit(productDetails?.id)"
     >
       {{ actionName }} <mat-icon *ngIf="actionIcon">{{ actionIcon }}</mat-icon>
     </button>

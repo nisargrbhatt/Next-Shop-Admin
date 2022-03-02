@@ -1,9 +1,8 @@
-import { Component, OnChanges, OnInit, OnDestroy } from '@angular/core';
+import { Component, OnInit } from '@angular/core';
 import { MatDialog } from '@angular/material/dialog';
-import { MatSnackBar } from '@angular/material/snack-bar';
+
 import { Router } from '@angular/router';
-import { Subscription } from 'rxjs';
-import { Auth0Service } from 'src/app/auth/auth0.service';
+
 import { ErrorComponent } from 'src/app/shared/dialog/error/error.component';
 import { ResMesComponent } from 'src/app/shared/dialog/res-mes/res-mes.component';
 import { environment } from 'src/environments/environment';
@@ -19,35 +18,23 @@ import { ProfileService } from '../../profile.service';
   templateUrl: './addresses.component.html',
   styleUrls: ['./addresses.component.scss'],
 })
-export class AddressesComponent implements OnInit, OnDestroy {
-  private isAuthenticate = false;
+export class AddressesComponent implements OnInit {
   pageLoding = false;
   formLoading = false;
 
   addresses: GetAddressesData;
 
-  private authStatusSub: Subscription;
-
   constructor(
     private profileService: ProfileService,
-    private authService: Auth0Service,
+
     private router: Router,
-    private snackbarService: MatSnackBar,
+
     private dialogService: MatDialog,
   ) {}
 
   ngOnInit(): void {
     this.pageLoding = true;
 
-    this.isAuthenticate = this.authService.IsAuth;
-    this.authStatusSub = this.authService.AuthStatusListener.subscribe(
-      (authStatus) => {
-        this.isAuthenticate = authStatus;
-        if (!this.isAuthenticate) {
-          this.router.navigate(['/login']);
-        }
-      },
-    );
     this.getAddresses();
   }
 
@@ -107,9 +94,5 @@ export class AddressesComponent implements OnInit, OnDestroy {
   addAddress(): void {
     // Add address form url
     this.router.navigate(['/profile/add-address']);
-  }
-
-  ngOnDestroy(): void {
-    this.authStatusSub.unsubscribe();
   }
 }
