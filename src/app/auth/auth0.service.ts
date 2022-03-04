@@ -1,16 +1,10 @@
-import {
-  Auth0ProfileData,
-  OAuthCallBody,
-  OAuthCallResponse,
-} from './auth.interface';
+import { OAuthCallBody, OAuthCallResponse } from './auth.interface';
 import { HttpClient } from '@angular/common/http';
 import { Injectable } from '@angular/core';
-import { filter, mergeMap, Observable, Subject, switchMap } from 'rxjs';
+import { filter, mergeMap, switchMap } from 'rxjs';
 import { environment } from 'src/environments/environment';
-import { MatDialog } from '@angular/material/dialog';
+
 import { User, AuthService } from '@auth0/auth0-angular';
-import { ErrorComponent } from '../shared/dialog/error/error.component';
-import { ResMesComponent } from '../shared/dialog/res-mes/res-mes.component';
 
 const BACKEND_URL = environment.production
   ? environment.backend_url_secure
@@ -24,6 +18,8 @@ export class Auth0Service {
     private httpService: HttpClient,
     private authService: AuthService,
   ) {
+    console.log('Auth');
+
     this.authService.error$
       .pipe(
         filter((e: any) => e.error === 'login_required'),
@@ -36,6 +32,7 @@ export class Auth0Service {
         filter((authStatus: boolean) => authStatus === true),
         switchMap(() => this.authService.user$),
         filter((user: any) => !!user),
+
         switchMap((profileClaims: User) => {
           const oAuthCallBody: OAuthCallBody = {
             email: profileClaims.email,
@@ -53,6 +50,10 @@ export class Auth0Service {
         filter((response) => !!response && !!response.data),
       )
       .subscribe();
+  }
+
+  init(): void {
+    console.log('Auth Init');
   }
 
   logout(): void {
