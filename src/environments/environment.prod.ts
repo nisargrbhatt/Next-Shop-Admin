@@ -2,6 +2,7 @@ export const environment = {
   production: true,
   backend_url: 'https://next-shop-backend.herokuapp.com',
   backend_url_secure: 'https://next-shop-backend.herokuapp.com',
+  backend_chat_url: 'https://next-shop-chat.herokuapp.com',
   debug: false,
   auth0ClientId: 'ZQSnbJmwwsGe6xe4OM6DJmWpacNCyZOB',
   auth0Audience: 'http://localhost:3001',
